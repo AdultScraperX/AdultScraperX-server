@@ -89,31 +89,32 @@ class Tools():
 
     def dateconvert(self, st):
         st = st.split(',')
-        md = st[0].split(' ')
-        m = md[0].replace(' ', '')
-        d = md[1].replace(' ', '')
-        y = st[1].replace(' ', '')
-        if m.lower() == 'Jan.'.lower() or m.lower() == 'Jan'.lower() or m.lower() == 'January'.lower():
-            return '%s-1-%s' % (y, d)
-        if m.lower() == 'Feb.'.lower() or m.lower() == 'Feb'.lower() or m.lower() == 'February'.lower():
-            return '%s-2-%s' % (y, d)
-        if m.lower() == 'Mar.'.lower() or m.lower() == 'Mar'.lower() or m.lower() == 'March'.lower():
-            return '%s-3-%s' % (y, d)
-        if m.lower() == 'Apr.'.lower() or m.lower() == 'Apr'.lower() or m.lower() == 'April'.lower():
-            return '%s-4-%s' % (y, d)
-        if m.lower() == 'May.'.lower() or m.lower() == 'May'.lower() or m.lower() == 'May'.lower():
-            return '%s-5-%s' % (y, d)
-        if m.lower() == 'Jun.'.lower() or m.lower() == 'Jun'.lower() or m.lower() == 'June'.lower():
-            return '%s-6-%s' % (y, d)
-        if m.lower() == 'Jul.'.lower() or m.lower() == 'Jul'.lower() or m.lower() == 'July'.lower():
-            return '%s-7-%s' % (y, d)
-        if m.lower() == 'Aug.'.lower() or m.lower() == 'Aug'.lower() or m.lower() == 'August'.lower():
-            return '%s-8-%s' % (y, d)
-        if m.lower() == 'Sep.'.lower() or m.lower() == 'Sep'.lower() or m.lower() == 'September'.lower():
-            return '%s-9-%s' % (y, d)
-        if m.lower() == 'Oct.'.lower() or m.lower() == 'Oct'.lower() or m.lower() == 'October'.lower():
-            return '%s-10-%s' % (y, d)
-        if m.lower() == 'Nov.'.lower() or m.lower() == 'Nov'.lower() or m.lower() == 'November'.lower():
-            return '%s-11-%s' % (y, d)
-        if m.lower() == 'Dec.'.lower() or m.lower() == 'Dec'.lower() or m.lower() == 'December'.lower():
-            return '%s-12-%s' % (y, d)
+        if len(st)>1:
+            md = st[0].split(' ')
+            m = md[0].replace(' ', '')
+            d = md[1].replace(' ', '')
+            y = st[1].replace(' ', '')
+            if m.lower() == 'Jan.'.lower() or m.lower() == 'Jan'.lower() or m.lower() == 'January'.lower():
+                return '%s-1-%s' % (y, d)
+            if m.lower() == 'Feb.'.lower() or m.lower() == 'Feb'.lower() or m.lower() == 'February'.lower():
+                return '%s-2-%s' % (y, d)
+            if m.lower() == 'Mar.'.lower() or m.lower() == 'Mar'.lower() or m.lower() == 'March'.lower():
+                return '%s-3-%s' % (y, d)
+            if m.lower() == 'Apr.'.lower() or m.lower() == 'Apr'.lower() or m.lower() == 'April'.lower():
+                return '%s-4-%s' % (y, d)
+            if m.lower() == 'May.'.lower() or m.lower() == 'May'.lower() or m.lower() == 'May'.lower():
+                return '%s-5-%s' % (y, d)
+            if m.lower() == 'Jun.'.lower() or m.lower() == 'Jun'.lower() or m.lower() == 'June'.lower():
+                return '%s-6-%s' % (y, d)
+            if m.lower() == 'Jul.'.lower() or m.lower() == 'Jul'.lower() or m.lower() == 'July'.lower():
+                return '%s-7-%s' % (y, d)
+            if m.lower() == 'Aug.'.lower() or m.lower() == 'Aug'.lower() or m.lower() == 'August'.lower():
+                return '%s-8-%s' % (y, d)
+            if m.lower() == 'Sep.'.lower() or m.lower() == 'Sep'.lower() or m.lower() == 'September'.lower():
+                return '%s-9-%s' % (y, d)
+            if m.lower() == 'Oct.'.lower() or m.lower() == 'Oct'.lower() or m.lower() == 'October'.lower():
+                return '%s-10-%s' % (y, d)
+            if m.lower() == 'Nov.'.lower() or m.lower() == 'Nov'.lower() or m.lower() == 'November'.lower():
+                return '%s-11-%s' % (y, d)
+            if m.lower() == 'Dec.'.lower() or m.lower() == 'Dec'.lower() or m.lower() == 'December'.lower():
+                return '%s-12-%s' % (y, d)

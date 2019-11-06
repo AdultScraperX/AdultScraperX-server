@@ -163,9 +163,9 @@ class ArzonAnime(BasicSpider):
 
                 actor.update({actorname.text: 'https:%s' % actorimageurl[0]})
         '''
-        self.self.media.update({'m_actor': ''})
+        self.media.update({'m_actor': ''})
 
-        return self.self.media
+        return self.media
 
     def posterPicture(self, url, r, w, h):
         cropped = None
