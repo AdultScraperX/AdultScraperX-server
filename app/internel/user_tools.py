@@ -1,5 +1,6 @@
 import logging
 import socket
+import uuid
 
 import app.internel.mongo_tools as mongoTools
 
@@ -17,21 +18,34 @@ def checkUser(token, userIp, FQDN, port):
     searchQuery = {'token': token}
     userInfo = collection.find_one(searchQuery)
     if userInfo is not None:
-        logging.debug(u'用户访问IP：%s' % userIp)
+        logging.info(u'用户访问IP：%s' % userIp)
         if userInfo['FQDN'] == '':
             userInfo['FQDN'] = FQDN
             userInfo['port'] = port
             collection.update(searchQuery, userInfo)
-            logging.debug(u'新用户设置FQDN：%s' % FQDN)
+            logging.info(u'新用户设置FQDN：%s' % FQDN)
             return True
         else:
-            FQDNip = socket.getaddrinfo(FQDN, 'http')[0][4][0]
-            logging.debug(u'FQDN_IP：%s' % FQDNip)
+            FQDNip = socket.gethostbyname(userInfo['FQDN'])
+            logging.info(u'FQDN_IP：%s' % FQDNip)
             if FQDNip == userIp:
-                logging.debug(u'访问授权')
+                logging.info(u'访问授权')
                 return True
             else:
-                logging.warning(u'未授权访问,IP不符,用户名：%s , 未授权IP：%s' % (userInfo['user_name'],userIp))
+                logging.warning(u'未授权访问,IP不符,用户名：%s , 未授权IP：%s' % (userInfo['user_name'], userIp))
     else:
         logging.warning(u'未授权访问,无此用户,尝试访问IP：' % userIp)
     return False
+
+
+def addNewUser(userName):
+    collection = mongoTools.getCollection('user')
+    userUuid = uuid.uuid1()
+    user = {
+        "user_name": userName,
+        "token": userUuid,
+        "FQDN": "",
+        "port": ""
+    }
+    collection.insert(user)
+    return userUuid

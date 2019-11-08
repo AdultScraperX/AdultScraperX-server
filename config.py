@@ -20,16 +20,23 @@ HOST = '0.0.0.0'
 PORT = 9999
 DEBUG = False
 
+SERVE_ADMIN_TOKEN = 'theBestAVScraper'
+
 MONGODB_HOST = 'mineserver.top'
 MONGODB_PORT = 50000
 MONGODB_DBNAME = 'adultscraperx'
 MONGODB_USER = 'adultscraperx'
 MONGODB_PWD = 'adultscraperx'
 
+IMG_R = 373
+IMG_W = 800
+IMG_H = 538
+
+
 logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s',
                     # filename='AdultScraperX-server.log',
                     # filemode='a',
-                    level=logging.DEBUG)
+                    level=logging.INFO)
 
 SOURCE_LIST = {
     # 有码搜刮

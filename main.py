@@ -59,6 +59,12 @@ def img(data):
         return ''
 
 
+@app.route('/addUser/<adminToken>/<username>')
+def addUser(adminToken, username):
+    if adminToken == CONFIG.SERVE_ADMIN_TOKEN:
+        return json.dumps({'issuccess': 'true', 'token': str(userTools.addNewUser(username)).replace('-','') ,'ex': ''})
+    return json.dumps({'issuccess': 'false', 'token': '',  'ex': '未授权访问'})
+
 @app.route('/<requestType>/<dirTagLine>/<q>/<token>/<FQDN>/<port>')
 def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
     '''
@@ -67,24 +73,24 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
     if token == '':
         return 'T-Error!'
 
-    logging.debug(u'======开始请求======')
+    logging.info(u'======开始请求======')
 
     userIp = request.remote_addr
     if not userTools.checkUser(token, userIp, FQDN, port):
-        logging.debug(u'======请求结束======')
+        logging.info(u'======请求结束======')
         return 'T-Error!'
 
     q = base64.b64decode(q.replace('[s]', '/')).decode("utf-8")
     if requestType == "manual":
-        logging.debug(u'模式：手动')
+        logging.info(u'模式：手动')
         autoFlag = False
     elif requestType == "auto":
-        logging.debug(u'模式：自动')
+        logging.info(u'模式：自动')
         autoFlag = True
     else:
         return 'URL-Error!'
-    logging.debug(u'文件名：%s' % q)
-    logging.debug(u'目录标记：%s' % dirTagLine)
+    logging.info(u'文件名：%s' % q)
+    logging.info(u'目录标记：%s' % dirTagLine)
 
     if dirTagLine != "" or not CONFIG.SOURCE_LIST[dirTagLine]:
         for template in CONFIG.SOURCE_LIST[dirTagLine]:
@@ -97,15 +103,15 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
                 items = search(template['webList'],
                                template['formatter'].format(code), autoFlag)
                 if items.get("issuccess") == "true":
-                    logging.debug("匹配数据结果：success")
-                    logging.debug(u'======结束请求======')
-                    logging.debug(u'======返回json======')
+                    logging.info("匹配数据结果：success")
+                    logging.info(u'======结束请求======')
+                    logging.info(u'======返回json======')
                     return json.dumps(items)
                 else:
-                    logging.debug("匹配数据结果：未匹配到结果")
+                    logging.info("匹配数据结果：未匹配到结果")
 
-    logging.debug(u'======结束请求======')
-    logging.debug(u'======返回json======')
+    logging.info(u'======结束请求======')
+    logging.info(u'======返回json======')
     return json.dumps({'issuccess': 'false', 'json_data': [], 'ex': ''})
 
 
@@ -130,7 +136,7 @@ def search(webList, q, autoFlag):
         }
     """
 
-    logging.debug("格式化后的查询关键字：%s" % q)
+    logging.info("格式化后的查询关键字：%s" % q)
     result = {
         'issuccess': 'false',
         'json_data': [],
@@ -143,7 +149,7 @@ def search(webList, q, autoFlag):
             if item['issuccess']:
                 result.update({'issuccess': 'true'})
                 result['json_data'].append({webSite.getName(): item['data']})
-                logging.debug("匹配关键字：%s  元数据来源站点：%s" % (q, webSite.getName()))
+                logging.info("匹配关键字：%s  元数据来源站点：%s" % (q, webSite.getName()))
                 if autoFlag:
                     return result
     return result
