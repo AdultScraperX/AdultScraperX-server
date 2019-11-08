@@ -117,7 +117,7 @@ class Arzon(BasicSpider):
 
         xpath_collections = "//table[@class='item']//tr[4]//td[2]//a"
         collections = html.xpath(xpath_collections)
-        if collections[0].text != None:
+        if collections[0].text is not None:
             collections = self.tools.cleanstr(collections[0].text)
             self.media.update({'m_collections': collections})
 
