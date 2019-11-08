@@ -83,9 +83,9 @@ def getMediaInfos(requestType, dirTagLine, q, token):
     if dirTagLine != "" or not CONFIG.SOURCE_LIST[dirTagLine]:
         for template in CONFIG.SOURCE_LIST[dirTagLine]:
             # 循环模板列表
-            codeList = re.findall(re.compile(template['pattern']), q.replace('', ''))
+            codeList = re.findall(re.compile(template['pattern']), q)
             if len(codeList) == 0:
-                break
+                continue
             # 对正则匹配结果进行搜索
             for code in codeList:
                 items = search(template['webList'],

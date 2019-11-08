@@ -1,9 +1,26 @@
 # -*- coding: utf-8 -*-
+import re
+import sys
 
 from app.spider.uncensored_spider import UnsensoredSpider
 
+if sys.version.find('2', 0, 1) == 0:
+    try:
+        from cStringIO import StringIO
+    except ImportError:
+        from StringIO import StringIO
+else:
+    from io import StringIO
+    from io import BytesIO
 
-class Caribbean(UnsensoredSpider):
+from PIL import Image
+
+
+
+class TenMusume(UnsensoredSpider):
+
+    def getName(self):
+        return "10Musume"
 
     def search(self, q):
 
@@ -12,7 +29,7 @@ class Caribbean(UnsensoredSpider):
         '''
         item = []
         '获取查询结果页html对象'
-        url = 'https://cn.caribbeancom.com/moviepages/%s/index.html' % q
+        url = 'https://www.10musume.com/moviepages/%s/index.html' % q
         html_item = self.getHtmlByurl(url)
         if html_item['issuccess']:
             media_item = self.analysisMediaHtmlByxpath(
@@ -34,14 +51,14 @@ class Caribbean(UnsensoredSpider):
         number = self.tools.cleanstr(q.upper())
         self.media.update({'m_number': number})
 
-        xpath_title = "//div[@class='video-detail']/h1/text()"
+        xpath_title = "//dl[@class='list-spec cf']/dd[1]/text()"
         title = html.xpath(xpath_title)
         if len(title) > 0:
             title = self.tools.cleantitlenumber(
                 self.tools.cleanstr(title[0]), number)
             self.media.update({'m_title': title})
 
-        xpath_summary = "//div[@class='movie-comment']/p/text()"
+        xpath_summary = "//div[@class='detail-info__item'][2]/p[@class='detail-info__comment']/text()"
         summary = html.xpath(xpath_summary)
         if len(summary) > 0:
             summary = summary[0]
@@ -51,13 +68,13 @@ class Caribbean(UnsensoredSpider):
         # poster = html.xpath(xpath_poster)        
         # if len(poster) > 0:
         # poster = self.tools.cleanstr(poster[0])
-        self.media.update({'m_poster': 'https://cn.caribbeancom.com/moviepages/%s/images/l_l.jpg' % number})
-        self.media.update({'m_art_url': 'https://cn.caribbeancom.com/moviepages/%s/images/l_l.jpg' % number})
+        self.media.update({'m_poster': 'https://www.10musume.com/moviepages//%s/images/list1.jpg' % number})
+        self.media.update({'m_art_url': 'https://www.10musume.com/moviepages//%s/images/g_b001.jpg' % number})
 
         # xpath_studio = "//div[@class='col-md-3 info']/p[5]/a/text()"
         # studio = html.xpath(xpath_studio)
         # if len(studio) > 0:
-        studio = 'Caribbean'
+        studio = '素人専門アダルト動画'
         self.media.update({'m_studio': studio})
 
         # xpath_directors = "//div[@class='col-md-3 info']/p[4]/a/text()"
@@ -69,17 +86,17 @@ class Caribbean(UnsensoredSpider):
         # xpath_collections = "//div[@class='col-md-3 info']/p[6]/a/text()"
         # collections = html.xpath(xpath_collections)
         # if len(collections) > 0:
-        collections = 'Caribbean'
+        collections = '天然むすめ'
         self.media.update({'m_collections': collections})
 
-        xpath_year = "//div[@class='movie-info']/dl[3]/dd"
+        xpath_year = "//dl[@class='list-spec cf']/dd[2]/text()"
         year = html.xpath(xpath_year)
         if len(year) > 0:
-            year = self.tools.cleanstr(year[0].text)
+            year = self.tools.cleanstr(year[0])
             self.media.update({'m_year': year})
             self.media.update({'m_originallyAvailableAt': year})
 
-        xpath_category = "//dl[@class='movie-info-cat']/dd/a/text()"
+        xpath_category = "//dl[@class='list-spec cf']/dd[7]/a/text()"
         categorys = html.xpath(xpath_category)
         category_list = []
         for category in categorys:
@@ -89,7 +106,7 @@ class Caribbean(UnsensoredSpider):
             self.media.update({'m_category': categorys})
 
         actor = {}
-        xpath_actor_name = "//div[@class='movie-info']/dl[1]/dd/a/span/text()"
+        xpath_actor_name = "//dl[@class='list-spec cf']/dd[4]/a/text()"
         # xpath_actor_url = "//div[@class='video-performer']/a/img/@style"
         actor_name = html.xpath(xpath_actor_name)
         # actor_url = html.xpath(xpath_actor_url)
@@ -106,3 +123,16 @@ class Caribbean(UnsensoredSpider):
             self.media.update({'m_actor': actor})
 
         return self.media
+
+    def posterPicture(self, url, r, w, h):
+        cropped = None
+        try:
+            response = self.client_session.get(url)
+        except Exception as ex:
+            print('error : %s' % repr(ex))
+            return cropped
+
+        img = Image.open(BytesIO(response.content))
+        # (left, upper, right, lower)
+        cropped = img.crop((0, 0, img.size[0], img.size[1]))
+        return cropped
