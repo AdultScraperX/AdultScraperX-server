@@ -1,11 +1,12 @@
-#格式化
+import logging
+# 格式化
 from app.formatter.CaribbeanFormatter import CaribbeanFormatter
 from app.formatter.censoredFormatter import CensoredFormatter
-from app.formatter.onePondoFormatter import OnePondoFormatter 
+from app.formatter.onePondoFormatter import OnePondoFormatter
 from app.formatter.tenMusumeFormatter import TenMusumeFormatter
 from app.formatter.data18Formatter import Data18Formatter
 from app.formatter.basicFormatter import BasicFormater
-#爬虫
+# 爬虫
 from app.spider.arzon import Arzon
 from app.spider.javbus import Javbus
 from app.spider.onejav import Onejav
@@ -15,18 +16,20 @@ from app.spider.onePondo import OnePondo
 from app.spider.tenMusume import TenMusume
 from app.spider.data18 import Data18
 
-
 HOST = '0.0.0.0'
 PORT = 9999
 DEBUG = False
 
-MONGODB_HOST = '192.168.1.104'
-MONGODB_PORT = 27017
+MONGODB_HOST = 'mineserver.top'
+MONGODB_PORT = 50000
 MONGODB_DBNAME = 'adultscraperx'
 MONGODB_USER = 'adultscraperx'
 MONGODB_PWD = 'adultscraperx'
 
-PLUGIN_TOKEN = '123'
+logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s',
+                    # filename='AdultScraperX-server.log',
+                    # filemode='a',
+                    level=logging.DEBUG)
 
 SOURCE_LIST = {
     # 有码搜刮
