@@ -34,13 +34,13 @@ def checkUser(token, userIp, FQDN, port):
             else:
                 logging.warning(u'未授权访问,IP不符,用户名：%s , 未授权IP：%s' % (userInfo['user_name'], userIp))
     else:
-        logging.warning(u'未授权访问,无此用户,尝试访问IP：' % userIp)
+        logging.warning(u'未授权访问,无此用户,尝试访问IP：%s' % userIp)
     return False
 
 
 def addNewUser(userName):
     collection = mongoTools.getCollection('user')
-    userUuid = uuid.uuid1()
+    userUuid = str(uuid.uuid1()).replace('-', '')
     user = {
         "user_name": userName,
         "token": userUuid,

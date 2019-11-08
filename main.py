@@ -62,8 +62,9 @@ def img(data):
 @app.route('/addUser/<adminToken>/<username>')
 def addUser(adminToken, username):
     if adminToken == CONFIG.SERVE_ADMIN_TOKEN:
-        return json.dumps({'issuccess': 'true', 'token': str(userTools.addNewUser(username)).replace('-','') ,'ex': ''})
-    return json.dumps({'issuccess': 'false', 'token': '',  'ex': '未授权访问'})
+        return json.dumps({'issuccess': 'true', 'token': userTools.addNewUser(username), 'ex': ''})
+    return json.dumps({'issuccess': 'false', 'token': '', 'ex': '未授权访问'})
+
 
 @app.route('/<requestType>/<dirTagLine>/<q>/<token>/<FQDN>/<port>')
 def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
