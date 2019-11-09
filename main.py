@@ -145,7 +145,7 @@ def search(webList, q, autoFlag):
     }
     for webSiteClass in webList:
         webSite = webSiteClass()
-        items = webSite.search(q)
+        items = webSite.searchWithCache(q, webSite.getName())
         for item in items:
             if item['issuccess']:
                 result.update({'issuccess': 'true'})

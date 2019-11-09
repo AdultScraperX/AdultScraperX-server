@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import logging
 import sys
 
 if sys.version.find('2', 0, 1) == 0:
@@ -21,13 +22,12 @@ class UnsensoredSpider(BasicSpider):
         try:
             response = self.client_session.get(url)
         except Exception as ex:
-            print('error : %s' % repr(ex))
+            logging.info('error : %s' % repr(ex))
             return cropped
 
         if response.status_code == 200:
             img = Image.open(BytesIO(response.content))
             # (left, upper, right, lower)
-            # cropped = img.crop((0, 0, img.size[0], img.size[1]))
 
             # 制作最大尺寸背景用白色填充
             w = int(600)

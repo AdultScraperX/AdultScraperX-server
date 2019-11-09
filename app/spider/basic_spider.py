@@ -1,3 +1,4 @@
+import logging
 from io import BytesIO
 from lxml import etree  # Xpath包
 
@@ -6,6 +7,7 @@ from PIL import Image
 from app.internel.config import ConfigManager
 import config as CONFIG
 import requests
+import app.internel.cache_tools as cacheTools
 
 from app.internel.tools import Tools
 
@@ -16,7 +18,7 @@ class BasicSpider:
         self.tools = Tools()
         self.configmanager = ConfigManager()
         self.client_session = requests.Session()
-        self. media = {
+        self.media = {
             'm_id': '',
             'm_number': '',
             'm_title': '',
@@ -31,6 +33,19 @@ class BasicSpider:
             'm_category': '',
             'm_actor': ''
         }
+
+    def searchWithCache(self, q, type):
+        metaDate = cacheTools.checkCache(q, type)
+        if metaDate is not None:
+            logging.info('缓存命中： %s ， %s' % (q, type))
+            return metaDate
+        else:
+            metaDate = self.search(q)
+            if len(metaDate) is not 0:
+                cacheTools.setCache(q, metaDate, type)
+                logging.info('首次匹配设置缓存： %s ， %s' % (q, type))
+
+        return metaDate
 
     def search(self, q):
         """
@@ -189,7 +204,7 @@ class BasicSpider:
             item.update({'issuccess': True, 'html': html, 'ex': None})
         else:
             scc = self.tools.statusCodeConvert(r.status_code)
-            print('匹配数据结果：%s' % scc)
+            logging.info('匹配数据结果：%s' % scc)
             item.update({'issuccess': False, 'html': None,
                          'execpt': scc})
         return item
