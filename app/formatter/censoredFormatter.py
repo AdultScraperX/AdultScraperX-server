@@ -3,11 +3,12 @@ from app.formatter.basicFormatter import BasicFormater
 class CensoredFormatter(BasicFormater):
 
     def format(code):
-        if code[-4] != "-":
-            if code[-4] == " ":
-                return code.replace(" ", "-")
+        hCode = str(code).upper()
+        if hCode[-4] != "-":
+            if hCode[-4] == " ":
+                return hCode.replace(" ", "-")
             else:
-                listCoed = list(code)
-                listCoed.insert(len(code) - 3, "-")
+                listCoed = list(hCode)
+                listCoed.insert(len(hCode) - 3, "-")
                 return "".join(listCoed)
-        return code
+        return hCode
