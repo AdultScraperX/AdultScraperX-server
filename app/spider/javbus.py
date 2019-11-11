@@ -58,47 +58,48 @@ class Javbus(BasicSpider):
             number = self.tools.cleanstr(number[0])
             self.media.update({'m_number': number})
         '''
+        media = self.media.copy()
         number = self.tools.cleanstr(q.upper())
-        self.media.update({'m_number': number})
+        media.update({'m_number': number})
 
         xpath_title = "//div[@class='container']/h3/text()"
         title = html.xpath(xpath_title)
         if len(title) > 0:
             title = self.tools.cleantitlenumber(
                 self.tools.cleanstr(title[0]), number)
-            self.media.update({'m_title': title})
+            media.update({'m_title': title})
 
         xpath_poster = "//div[@class='col-md-9 screencap']/a[@class='bigImage']/img/@src"
         poster = html.xpath(xpath_poster)
         if len(poster) > 0:
             poster = self.tools.cleanstr(poster[0])
-            self.media.update({'m_poster': poster})
-            self.media.update({'m_art_url': poster})
+            media.update({'m_poster': poster})
+            media.update({'m_art_url': poster})
 
         xpath_studio = "//div[@class='col-md-3 info']/p[5]/a/text()"
         studio = html.xpath(xpath_studio)
         if len(studio) > 0:
             studio = self.tools.cleanstr(studio[0])
-            self.media.update({'m_studio': studio})
+            media.update({'m_studio': studio})
 
         xpath_directors = "//div[@class='col-md-3 info']/p[4]/a/text()"
         directors = html.xpath(xpath_directors)
         if len(directors) > 0:
             directors = self.tools.cleanstr(directors[0])
-            self.media.update({'m_directors': directors})
+            media.update({'m_directors': directors})
 
         xpath_collections = "//div[@class='col-md-3 info']/p[6]/a/text()"
         collections = html.xpath(xpath_collections)
         if len(collections) > 0:
             collections = self.tools.cleanstr(collections[0])
-            self.media.update({'m_collections': collections})
+            media.update({'m_collections': collections})
 
         xpath_year = "/html/body/div[@class='container']/div[@class='row movie']/div[@class='col-md-3 info']/p[2]/text()"
         year = html.xpath(xpath_year)
         if len(year) > 0:
             year = self.tools.cleanstr(year[0])
-            self.media.update({'m_year': year})
-            self.media.update({'m_originallyAvailableAt': year})
+            media.update({'m_year': year})
+            media.update({'m_originallyAvailableAt': year})
 
         xpath_category = "/html/body/div[@class='container']/div[@class='row movie']/div[@class='col-md-3 info']/p[8]/span[@class='genre']/a"
         categorys = html.xpath(xpath_category)
@@ -107,7 +108,7 @@ class Javbus(BasicSpider):
             category_list.append(self.tools.cleanstr(category.text))
         categorys = ','.join(category_list)
         if len(categorys) > 0:
-            self.media.update({'m_category': categorys})
+            media.update({'m_category': categorys})
 
         actor = {}
         xpath_actor_name = "/html/body/div[@class='container']/div[@class='row movie']/div[@class='col-md-3 info']/p[10]/span[@class='genre']/a/text()"
@@ -122,7 +123,7 @@ class Javbus(BasicSpider):
                     actor.update({actorname: ''})
                 else:
                     actor.update({actorname: actor_url[i]})
-            self.media.update({'m_actor': actor})
+            media.update({'m_actor': actor})
 
-        return self.media
+        return media
 

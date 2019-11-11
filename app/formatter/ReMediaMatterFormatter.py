@@ -1,17 +1,24 @@
 from app.formatter.basicFormatter import BasicFormater
+import re
 
 
 class ReMediaMatterFormatter(BasicFormater):
 
     def format(code):
-        reCode = ReMediaMatterFormatter.reMediaName(code)
-        return reCode
+        code = code.lower()
+        re_tmp = re.findall(
+            r'[a-z]{1,5}-[0-9]{1,5}', code)
+        if len(re_tmp) == 1:
+            return re_tmp[0]
+        else:
+            reCode = ReMediaMatterFormatter.reMediaName(code)
+            return reCode
 
     def reMediaName(medianame):
         relist = []
         medianame = medianame.replace('-', ' ').replace('_', ' ')
         relist.append(r'vol[0-9]{1,3}|vol.[0-9]{1,3}|vol [0-9]{1,3}')
-        relist.append(r'\(|\)|\[|\]|\{|\}|【|】|「|」')
+        relist.append(r'\(|\)|\[|\]|\{|\}|【|】')
         relist.append(r'[0-9]{1,4}x[0-9]{1,4}')
         relist.append(r'  ')
         relist.append(r':')
@@ -43,10 +50,9 @@ class ReMediaMatterFormatter(BasicFormater):
         relist.append(
             r'^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$')  # 网址
         relist.append(
-            r' dvd| DVDrip| BDrip| HDTVRip| DVDScr| divx| Screener| TS1| VHS| VHSRip| TVRip| vcd| svcd| XviDrips| XviD | DivX| DivX[0-9].[0-9]{1.2}| DivX[0-9]| DivXRe-Enc| DivXRe| PDVD')  # 标记
+            r'dvd|DVDrip|BDrip|HDTVRip|DVDScr|divx|Screener| TS1| VHS|VHSRip|TVRip| vcd|svcd|XviDrips|XviD|DivX|DivX[0-9]\.[0-9]{1.2}|DivX[0-9]|DivXRe-Enc|DivXRe|PDVD')  # 标记
         reg = '|'.join(relist)
         reg = reg.lower()
-        Log(reg)
         re.compile(reg)
         medianame = re.sub(reg, '', medianame.lower(), flags=re.IGNORECASE)
-        return medianame.replace('.', ' ').replace('com ', '').replace(' com', '').replace('  ', ' ')
+        return medianame.replace('.', ' ').replace('com ', '').replace(' com', '').replace('  ', ' ').replace('「',' ').replace('」',' ')
