@@ -1,6 +1,7 @@
 import logging
 # 格式化
 from app.formatter.CaribbeanFormatter import CaribbeanFormatter
+from app.formatter.ReMediaMatterFormatter import ReMediaMatterFormatter
 from app.formatter.censoredFormatter import CensoredFormatter
 from app.formatter.onePondoFormatter import OnePondoFormatter
 from app.formatter.tenMusumeFormatter import TenMusumeFormatter
@@ -85,7 +86,7 @@ SOURCE_LIST = {
     'animation': [
         {
             'pattern': '.+',
-            'formatter': BasicFormater,
+            'formatter': ReMediaMatterFormatter,
             'webList': [ArzonAnime]
         }
     ],
