@@ -33,7 +33,6 @@ IMG_R = 373
 IMG_W = 800
 IMG_H = 538
 
-
 logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s',
                     # filename='AdultScraperX-server.log',
                     # filemode='a',
@@ -52,13 +51,13 @@ SOURCE_LIST = {
     'uncensored': [
         # Caribbean
         {
-            "pattern": "\d{6}\ \d{3}",
+            "pattern": "\d{6}.\d{3}",
             'formatter': CaribbeanFormatter,
             'webList': [Caribbean]
         },
         # one_pondo
         {
-            "pattern": "\d{6}\ \d{3}",
+            "pattern": "\d{6}.\d{3}",
             'formatter': OnePondoFormatter,
             'webList': [OnePondo]
         },
@@ -70,7 +69,7 @@ SOURCE_LIST = {
         # },
         # _10musume
         {
-            "pattern": "\d{6}\ \d{2}",
+            "pattern": "\d{6}.\d{2}",
             'formatter': TenMusumeFormatter,
             'webList': [TenMusume]
         },
