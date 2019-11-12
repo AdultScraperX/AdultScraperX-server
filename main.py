@@ -92,7 +92,10 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
         return 'URL-Error!'
     logging.info(u'文件名：%s' % q)
     logging.info(u'目录标记：%s' % dirTagLine)
-
+    cacheFlag = True
+    if '--withoutCache' in q:
+        cacheFlag = False
+        q.replace('--withoutCache', '')
     if dirTagLine != "" or not CONFIG.SOURCE_LIST[dirTagLine]:
         for template in CONFIG.SOURCE_LIST[dirTagLine]:
             # 循环模板列表
@@ -102,7 +105,9 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
             # 对正则匹配结果进行搜索
             for code in codeList:
                 items = search(template['webList'],
-                               template['formatter'].format(code), autoFlag)
+                               template['formatter'].format(code),
+                               autoFlag,
+                               cacheFlag)
                 if items.get("issuccess") == "true":
                     logging.info("匹配数据结果：success")
                     logging.info(u'======结束请求======')
@@ -116,9 +121,10 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
     return json.dumps({'issuccess': 'false', 'json_data': [], 'ex': ''})
 
 
-def search(webList, q, autoFlag):
+def search(webList, q, autoFlag, cacheFlag = False):
     """
     根据搜刮网站列表进行数据搜刮
+    :param cacheFlag: 使用缓存标识
     :param webList: 搜刮网站的List 类型应为 app.spider.BasicSpider 的子类
     :param q: 待匹配的文件名
     :param autoFlag: 自动表示 True 为开启，开启后仅返回搜索到的第一个结果 ，False 为关闭
@@ -145,7 +151,11 @@ def search(webList, q, autoFlag):
     }
     for webSiteClass in webList:
         webSite = webSiteClass()
-        items = webSite.searchWithCache(q, webSite.getName())
+        if cacheFlag:
+            items = webSite.searchWithCache(q, webSite.getName())
+        else:
+            items = webSite.search(q)
+
         for item in items:
             if item['issuccess']:
                 result.update({'issuccess': 'true'})

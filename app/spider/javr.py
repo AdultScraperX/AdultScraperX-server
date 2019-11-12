@@ -58,8 +58,9 @@ class Javr(UnsensoredSpider):
         media.update({'m_art_url': post_url})
 
         xpath_studio = '//*[@id="cactus-body-container"]/div/div/div/div[2]/div/div[2]/article/div[3]/div[1]/div/p[3]/a'
-        studio = html.xpath(xpath_studio)[0].text
-        media.update({'m_studio': studio})
+        if len(html.xpath(xpath_studio)) >0 :
+            studio = html.xpath(xpath_studio)[0].text
+            media.update({'m_studio': studio})
 
         directors = ''
         media.update({'m_directors': directors})

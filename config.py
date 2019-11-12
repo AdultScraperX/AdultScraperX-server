@@ -4,6 +4,7 @@ from app.formatter.CaribbeancomprFormatter import CaribbeancomprFormatter
 from app.formatter.CaribbeanFormatter import CaribbeanFormatter
 from app.formatter.ReMediaMatterFormatter import ReMediaMatterFormatter
 from app.formatter.censoredFormatter import CensoredFormatter
+from app.formatter.fc2ppvFormatter import Fc2ppvFormater
 from app.formatter.onePondoFormatter import OnePondoFormatter
 from app.formatter.tenMusumeFormatter import TenMusumeFormatter
 from app.formatter.data18Formatter import Data18Formatter
@@ -64,6 +65,12 @@ SOURCE_LIST = {
             "pattern": "\d{6}.\d{3}",
             'formatter': CaribbeancomprFormatter,
             'webList': [Caribbeancompr, Javr]
+        },
+        # FC2PPV
+        {
+            "pattern": "[fc|Fc|FC].*\d{6}",
+            'formatter': Fc2ppvFormater,
+            'webList': [Javr]
         },
         # one_pondo
         {

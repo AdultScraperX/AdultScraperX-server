@@ -1,10 +1,22 @@
 # -*- coding: utf-8 -*-
 
 from app.spider.uncensored_spider import UnsensoredSpider
+import re
+import sys
+
+if sys.version.find('2', 0, 1) == 0:
+    try:
+        from cStringIO import StringIO
+    except ImportError:
+        from StringIO import StringIO
+else:
+    from io import StringIO
+    from io import BytesIO
+
+from PIL import Image
 
 
 class Caribbean(UnsensoredSpider):
-
     basicUrl = 'www.caribbeancom.com'
 
     def search(self, q):
@@ -36,14 +48,14 @@ class Caribbean(UnsensoredSpider):
         number = self.tools.cleanstr(q.upper())
         media.update({'m_number': number})
 
-        xpath_title = "//div[@class='video-detail']/h1/text()"
+        xpath_title = "//div[@class='heading heading-dense']/h1/text()"
         title = html.xpath(xpath_title)
         if len(title) > 0:
             title = self.tools.cleantitlenumber(
                 self.tools.cleanstr(title[0]), number)
             media.update({'m_title': title})
 
-        xpath_summary = "//div[@class='movie-comment']/p/text()"
+        xpath_summary = "//div[@class='movie-info section divider']/p/text()"
         summary = html.xpath(xpath_summary)
         if len(summary) > 0:
             summary = summary[0]
@@ -61,14 +73,14 @@ class Caribbean(UnsensoredSpider):
         collections = 'Caribbeancom'
         media.update({'m_collections': collections})
 
-        xpath_year = "//div[@class='movie-info']/dl[3]/dd"
+        xpath_year = "//li[@class='movie-detail__spec'][2]/span[@class='spec-content']/text()"
         year = html.xpath(xpath_year)
         if len(year) > 0:
-            year = self.tools.cleanstr(year[0].text)
+            year = self.tools.cleanstr(year[0])
             media.update({'m_year': year})
             media.update({'m_originallyAvailableAt': year})
 
-        xpath_category = "//dl[@class='movie-info-cat']/dd/a/text()"
+        xpath_category = "//li[@class='movie-detail__spec'][5]/span[@class='spec-content']/a/text()"
         categorys = html.xpath(xpath_category)
         category_list = []
         for category in categorys:
@@ -78,14 +90,32 @@ class Caribbean(UnsensoredSpider):
             media.update({'m_category': categorys})
 
         actor = {}
-        xpath_actor_name = "//div[@class='movie-info']/dl[1]/dd/a/span/text()"
-        actor_name = html.xpath(xpath_actor_name)
-        if len(actor_name) > 0:
-            for i, actorname in enumerate(actor_name):
+        xpath_actor_name = "//li[@class='movie-detail__spec'][1]/span[@class='spec-content']/a/span/text()"
+        xpath_actor_url = "//li[@class='movie-detail__spec'][1]/span[@class='spec-content']/a/@href"
 
-                actor.update({self.tools.cleanstr2(
-                    actorname): ''})
+        actor_name = html.xpath(xpath_actor_name)
+        actor_url = html.xpath(xpath_actor_url)
+
+        if len(actor_name) > 0:
+            actorid = actor_url[0].split('/')[2]
+
+            actor.update({actor_name[0]: 'https://www.caribbeancom.com/images/actress/50x50/actor_%s.jpg' % actorid})
 
             media.update({'m_actor': actor})
 
         return media
+
+    def actorPicture(self, url, r, w, h):
+        cropped = None
+        try:
+            response = self.client_session.get(url)
+        except Exception as ex:
+            print('error : %s' % repr(ex))
+            return cropped
+
+        img = Image.open(BytesIO(response.content))
+        rimg = img.resize((125, 125), Image.ANTIALIAS)
+        # (left, upper, right, lower)
+        cropped = rimg.crop((0, 0, 125, 125))
+        return cropped
+
