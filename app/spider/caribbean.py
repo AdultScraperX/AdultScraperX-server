@@ -3,7 +3,6 @@
 from app.spider.uncensored_spider import UnsensoredSpider
 import re
 import sys
-
 if sys.version.find('2', 0, 1) == 0:
     try:
         from cStringIO import StringIO
@@ -15,8 +14,8 @@ else:
 
 from PIL import Image
 
-
 class Caribbean(UnsensoredSpider):
+
     basicUrl = 'www.caribbeancom.com'
 
     def search(self, q):
@@ -62,10 +61,12 @@ class Caribbean(UnsensoredSpider):
             media.update({'m_summary': summary})
 
         media.update({'m_poster': 'https://%s/moviepages/%s/images/l_l.jpg' % (self.basicUrl, number)})
-        media.update({'m_art_url': 'https://%s/moviepages/%s/images/l_l.jpg' % (self.basicUrl, number)})
+        media.update({'m_art_url': 'https://%s/moviepages/%s/images/s/001.jpg' % (self.basicUrl, number)})
 
-        studio = 'Caribbeancom'
-        media.update({'m_studio': studio})
+
+        xpath_studio = "//li[@class='movie-detail__spec'][4]/span[@class='spec-content']/a/text()"
+        studio = html.xpath(xpath_studio)
+        media.update({'m_studio': studio[0]})
 
         directors = ''
         media.update({'m_directors': directors})
@@ -89,6 +90,7 @@ class Caribbean(UnsensoredSpider):
         if len(categorys) > 0:
             media.update({'m_category': categorys})
 
+
         actor = {}
         xpath_actor_name = "//li[@class='movie-detail__spec'][1]/span[@class='spec-content']/a/span/text()"
         xpath_actor_url = "//li[@class='movie-detail__spec'][1]/span[@class='spec-content']/a/@href"
@@ -97,14 +99,16 @@ class Caribbean(UnsensoredSpider):
         actor_url = html.xpath(xpath_actor_url)
 
         if len(actor_name) > 0:
-            actorid = actor_url[0].split('/')[2]
+            
+            actorid =actor_url[0].split('/')[2]
 
             actor.update({actor_name[0]: 'https://www.caribbeancom.com/images/actress/50x50/actor_%s.jpg' % actorid})
 
             media.update({'m_actor': actor})
-
+            
         return media
 
+        
     def actorPicture(self, url, r, w, h):
         cropped = None
         try:
@@ -113,9 +117,13 @@ class Caribbean(UnsensoredSpider):
             print('error : %s' % repr(ex))
             return cropped
 
-        img = Image.open(BytesIO(response.content))
+        try:
+            img = Image.open(BytesIO(response.content))
+        except Exception as ex:
+            return cropped
+
         rimg = img.resize((125, 125), Image.ANTIALIAS)
         # (left, upper, right, lower)
-        cropped = rimg.crop((0, 0, 125, 125))
+        cropped = rimg.crop((0 , 0, 125, 125))
         return cropped
 
