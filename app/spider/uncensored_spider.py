@@ -39,3 +39,24 @@ class UnsensoredSpider(BasicSpider):
         else:
             pass
         return cropped
+
+    def actorPicture(self, url, r, w, h):
+        """
+        处理艺人图片，默认实现根据webui配置进行剪裁，如果子类无特殊需求不需要重写
+        :param url: 图片地址
+        :param r: 横向裁切位置
+        :param w: 缩放比例:宽
+        :param h: 缩放比例:高
+        :return: 处理后的图片
+        """
+        cropped = None
+        try:
+            response = self.client_session.get(url)
+        except Exception as ex:
+            print('error : %s' % repr(ex))
+            return cropped
+
+        img = Image.open(BytesIO(response.content))
+        rimg = img.resize((200, 200), Image.ANTIALIAS)
+        cropped = rimg.crop((50, 0, 150, 125))
+        return cropped

@@ -1,5 +1,6 @@
 import logging
 # 格式化
+from app.formatter.CaribbeancomprFormatter import CaribbeancomprFormatter
 from app.formatter.CaribbeanFormatter import CaribbeanFormatter
 from app.formatter.ReMediaMatterFormatter import ReMediaMatterFormatter
 from app.formatter.censoredFormatter import CensoredFormatter
@@ -9,11 +10,14 @@ from app.formatter.data18Formatter import Data18Formatter
 from app.formatter.basicFormatter import BasicFormater
 # 爬虫
 from app.spider.arzon import Arzon
+from app.spider.caribbeancompr import Caribbeancompr
 from app.spider.javbus import Javbus
+from app.spider.javr import Javr
 from app.spider.onejav import Onejav
 from app.spider.caribbean import Caribbean
 from app.spider.arzon_anime import ArzonAnime
 from app.spider.onePondo import OnePondo
+from app.spider.pacoPacoMama import PacoPacoMama
 from app.spider.tenMusume import TenMusume
 from app.spider.data18 import Data18
 
@@ -53,25 +57,31 @@ SOURCE_LIST = {
         {
             "pattern": "\d{6}.\d{3}",
             'formatter': CaribbeanFormatter,
-            'webList': [Caribbean]
+            'webList': [Caribbean, Javr]
+        },
+        # Caribbeancompr
+        {
+            "pattern": "\d{6}.\d{3}",
+            'formatter': CaribbeancomprFormatter,
+            'webList': [Caribbeancompr, Javr]
         },
         # one_pondo
         {
             "pattern": "\d{6}.\d{3}",
             'formatter': OnePondoFormatter,
-            'webList': [OnePondo]
+            'webList': [OnePondo, Javr]
         },
         # # Pacopacomama
-        # {
-        #     "pattern": "[a-zA-Z]+[\ -]?\d{3}",
-        #     'formatter': PacopacomamaFormatter,
-        #     'webList': [Pacopacomama]
-        # },
+        {
+            "pattern": "\d{6}.\d{3}",
+            'formatter': OnePondoFormatter,
+            'webList': [PacoPacoMama, Javr]
+        },
         # _10musume
         {
             "pattern": "\d{6}.\d{2}",
             'formatter': TenMusumeFormatter,
-            'webList': [TenMusume]
+            'webList': [TenMusume, Javr]
         },
         # # Muramura
         # {

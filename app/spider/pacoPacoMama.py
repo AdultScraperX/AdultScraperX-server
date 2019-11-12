@@ -1,11 +1,22 @@
 # -*- coding: utf-8 -*-
+import time
+import sys
+if sys.version.find('2', 0, 1) == 0:
+    try:
+        from cStringIO import StringIO
+    except ImportError:
+        from StringIO import StringIO
+else:
+    from io import StringIO
+    from io import BytesIO
 
+from PIL import Image
+
+from app.internel.browser_tools import BrowserTools
 from app.spider.uncensored_spider import UnsensoredSpider
 
 
-class Caribbean(UnsensoredSpider):
-
-    basicUrl = 'www.caribbeancom.com'
+class PacoPacoMama(UnsensoredSpider):
 
     def search(self, q):
 
@@ -14,7 +25,7 @@ class Caribbean(UnsensoredSpider):
         '''
         item = []
         '获取查询结果页html对象'
-        url = 'https://%s/moviepages/%s/index.html' % (self.basicUrl, q)
+        url = 'https://www.pacopacomama.com/moviepages/%s/index.html' % q
         html_item = self.getHtmlByurl(url)
         if html_item['issuccess']:
             media_item = self.analysisMediaHtmlByxpath(
@@ -36,29 +47,42 @@ class Caribbean(UnsensoredSpider):
         number = self.tools.cleanstr(q.upper())
         media.update({'m_number': number})
 
-        xpath_title = "//div[@class='video-detail']/h1/text()"
+        xpath_title = "//div[@id='main']/h1/text()"
         title = html.xpath(xpath_title)
         if len(title) > 0:
             title = self.tools.cleantitlenumber(
                 self.tools.cleanstr(title[0]), number)
             media.update({'m_title': title})
 
-        xpath_summary = "//div[@class='movie-comment']/p/text()"
+        xpath_summary = "//dd[@class='comment']/div/text()"
         summary = html.xpath(xpath_summary)
         if len(summary) > 0:
             summary = summary[0]
             media.update({'m_summary': summary})
 
-        media.update({'m_poster': 'https://%s/moviepages/%s/images/l_l.jpg' % (self.basicUrl, number)})
-        media.update({'m_art_url': 'https://%s/moviepages/%s/images/l_l.jpg' % (self.basicUrl, number)})
+        # xpath_poster = "//img/@src"
+        # poster = html.xpath(xpath_poster)        
+        # if len(poster) > 0:
+        # poster = self.tools.cleanstr(poster[0])
+        media.update({'m_poster': 'https://www.pacopacomama.com/moviepages/%s/images/poster_en.jpg' % number})
+        media.update({'m_art_url': 'https://www.pacopacomama.com/moviepages/%s/images/l/1.jpg' % number})
 
-        studio = 'Caribbeancom'
+        # xpath_studio = "//div[@class='col-md-3 info']/p[5]/a/text()"
+        # studio = html.xpath(xpath_studio)
+        # if len(studio) > 0:
+        studio = 'PacoPacoMama'
         media.update({'m_studio': studio})
 
+        # xpath_directors = "//div[@class='col-md-3 info']/p[4]/a/text()"
+        # directors = html.xpath(xpath_directors)
+        # if len(directors) > 0:
         directors = ''
         media.update({'m_directors': directors})
 
-        collections = 'Caribbeancom'
+        # xpath_collections = "//div[@class='col-md-3 info']/p[6]/a/text()"
+        # collections = html.xpath(xpath_collections)
+        # if len(collections) > 0:
+        collections = 'PacoPacoMama'
         media.update({'m_collections': collections})
 
         xpath_year = "//div[@class='movie-info']/dl[3]/dd"
@@ -68,7 +92,7 @@ class Caribbean(UnsensoredSpider):
             media.update({'m_year': year})
             media.update({'m_originallyAvailableAt': year})
 
-        xpath_category = "//dl[@class='movie-info-cat']/dd/a/text()"
+        xpath_category = "//div[@class='clearfix']/table/tr[4]/td[2]/a/text()"
         categorys = html.xpath(xpath_category)
         category_list = []
         for category in categorys:
@@ -78,13 +102,18 @@ class Caribbean(UnsensoredSpider):
             media.update({'m_category': categorys})
 
         actor = {}
-        xpath_actor_name = "//div[@class='movie-info']/dl[1]/dd/a/span/text()"
+        xpath_actor_name = "//div[@class='clearfix']/table/tr[1]/td[2]/a/text()"
+        xpath_actor_url = "//div[@class='clearfix']/img[@class='lefty']/@src"
         actor_name = html.xpath(xpath_actor_name)
+        actor_url = 'https://www.pacopacomama.com%s' % html.xpath(xpath_actor_url)[0]
         if len(actor_name) > 0:
             for i, actorname in enumerate(actor_name):
-
+                actorimageurl = actor_url
+                
                 actor.update({self.tools.cleanstr2(
-                    actorname): ''})
+                    actorname): actorimageurl})
+                # actor.update({self.tools.cleanstr2(
+                #     actorname): ''})
 
             media.update({'m_actor': actor})
 
