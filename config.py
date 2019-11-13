@@ -57,60 +57,60 @@ SOURCE_LIST = {
         }],
     # 无码搜刮
     'uncensored': [
-        # # Caribbean
-        # {
-        #     "pattern": "\d{6}.\d{3}",
-        #     'formatter': CaribbeanFormatter,
-        #     'webList': [Caribbean, Javr]
-        # },
-        # # Caribbeancompr
-        # {
-        #     "pattern": "\d{6}.\d{3}",
-        #     'formatter': CaribbeancomprFormatter,
-        #     'webList': [Caribbeancompr, Javr]
-        # },
-        # # FC2PPV
-        # {
-        #     "pattern": "[fc|Fc|FC].*\d{6}",
-        #     'formatter': Fc2ppvFormater,
-        #     'webList': [Javr]
-        # },
-        # # Heydouga
-        # {
-        #     "pattern": "[Heydouga|HEYDOUGA|heydouga]\w*\d+.*\d+[.*\d]{0,1}",
-        #     'formatter': HeydougaFormatter,
-        #     'webList': [Javr]
-        # },
-        # # Heyzo
-        # {
-        #     "pattern": "[Heyzo|HEYZO|heyzo]\w*\d{4}",
-        #     'formatter': HeyzoFormatter,
-        #     'webList': [Javr]
-        # },
-        # # one_pondo
-        # {
-        #     "pattern": "\d{6}.\d{3}",
-        #     'formatter': OnePondoFormatter,
-        #     'webList': [OnePondo, Javr]
-        # },
+        # Caribbean
+        {
+            "pattern": "\d{6}.\d{3}",
+            'formatter': CaribbeanFormatter,
+            'webList': [Caribbean, Javr]
+        },
+        # Caribbeancompr
+        {
+            "pattern": "\d{6}.\d{3}",
+            'formatter': CaribbeancomprFormatter,
+            'webList': [Caribbeancompr, Javr]
+        },
+        # FC2PPV
+        {
+            "pattern": "[fc|Fc|FC].*\d{6}",
+            'formatter': Fc2ppvFormater,
+            'webList': [Javr]
+        },
+        # Heydouga
+        {
+            "pattern": "[Heydouga|HEYDOUGA|heydouga]\w*\d+.*\d+[.*\d]{0,1}",
+            'formatter': HeydougaFormatter,
+            'webList': [Javr]
+        },
+        # Heyzo
+        {
+            "pattern": "[Heyzo|HEYZO|heyzo]\w*\d{4}",
+            'formatter': HeyzoFormatter,
+            'webList': [Javr]
+        },
+        # one_pondo
+        {
+            "pattern": "\d{6}.\d{3}",
+            'formatter': OnePondoFormatter,
+            'webList': [OnePondo, Javr]
+        },
         # TokyoHot
         {
             "pattern": "[A-Za-z]+[\ -]?\d+",
             'formatter': TokyoHotFormatter,
             'webList': [Javr]
         },
-        # # Pacopacomama
-        # {
-        #     "pattern": "\d{6}.\d{3}",
-        #     'formatter': OnePondoFormatter,
-        #     'webList': [PacoPacoMama, Javr]
-        # },
-        # # _10musume
-        # {
-        #     "pattern": "\d{6}.\d{2}",
-        #     'formatter': TenMusumeFormatter,
-        #     'webList': [TenMusume, Javr]
-        # },
+        # Pacopacomama
+        {
+            "pattern": "\d{6}.\d{3}",
+            'formatter': OnePondoFormatter,
+            'webList': [PacoPacoMama, Javr]
+        },
+        # _10musume
+        {
+            "pattern": "\d{6}.\d{2}",
+            'formatter': TenMusumeFormatter,
+            'webList': [TenMusume, Javr]
+        },
 
     ],
 
