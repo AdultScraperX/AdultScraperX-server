@@ -77,13 +77,13 @@ SOURCE_LIST = {
         },
         # Heydouga
         {
-            "pattern": "[Heydouga|HEYDOUGA|heydouga]\w*\d+.*\d+[.*\d]{0,1}",
+            "pattern": "[Heydouga|HEYDOUGA|heydouga].*\d+.*\d+[.*\d]{0,1}",
             'formatter': HeydougaFormatter,
             'webList': [Javr]
         },
         # Heyzo
         {
-            "pattern": "[Heyzo|HEYZO|heyzo]\w*\d{4}",
+            "pattern": "[Heyzo|HEYZO|heyzo].*\d{4}",
             'formatter': HeyzoFormatter,
             'webList': [Javr]
         },
@@ -95,7 +95,7 @@ SOURCE_LIST = {
         },
         # TokyoHot
         {
-            "pattern": "[A-Za-z]+[\ -]?\d+",
+            "pattern": "[tokyo|TOKYO].*[A-Za-z]+[\ -]?\d+",
             'formatter': TokyoHotFormatter,
             'webList': [Javr]
         },
