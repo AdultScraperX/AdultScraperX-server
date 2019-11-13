@@ -69,11 +69,29 @@ SOURCE_LIST = {
             'formatter': CaribbeancomprFormatter,
             'webList': [Caribbeancompr, Javr]
         },
+        # Pacopacomama
+        {
+            "pattern": "\d{6}.\d{3}",
+            'formatter': OnePondoFormatter,
+            'webList': [PacoPacoMama, Javr]
+        },
+        # _10musume
+        {
+            "pattern": "\d{6}.\d{2}",
+            'formatter': TenMusumeFormatter,
+            'webList': [TenMusume, Javr]
+        },
         # FC2PPV
         {
             "pattern": "[fc|Fc|FC].*\d{6}",
             'formatter': Fc2ppvFormater,
             'webList': [Javr]
+        },
+        # one_pondo
+        {
+            "pattern": "\d{6}.\d{3}",
+            'formatter': OnePondoFormatter,
+            'webList': [OnePondo, Javr]
         },
         # Heydouga
         {
@@ -87,30 +105,13 @@ SOURCE_LIST = {
             'formatter': HeyzoFormatter,
             'webList': [Javr]
         },
-        # one_pondo
-        {
-            "pattern": "\d{6}.\d{3}",
-            'formatter': OnePondoFormatter,
-            'webList': [OnePondo, Javr]
-        },
         # TokyoHot
         {
             "pattern": "[tokyo|TOKYO].*[A-Za-z]+[\ -]?\d+",
             'formatter': TokyoHotFormatter,
             'webList': [Javr]
         },
-        # Pacopacomama
-        {
-            "pattern": "\d{6}.\d{3}",
-            'formatter': OnePondoFormatter,
-            'webList': [PacoPacoMama, Javr]
-        },
-        # _10musume
-        {
-            "pattern": "\d{6}.\d{2}",
-            'formatter': TenMusumeFormatter,
-            'webList': [TenMusume, Javr]
-        },
+
 
     ],
 
