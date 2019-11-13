@@ -7,12 +7,12 @@ class HeydougaFormatter(BasicFormater):
 
     def format(code):
         codelist = re.findall(re.compile('\d+'), code)
+        rCode = ''
         if len(codelist) >= 2:
-            code = codelist[0]
+            rCode = codelist[0]
             ppv = codelist[1]
-            pt = ''
+            rCode = 'Heydouga,' + rCode + ',' + ppv
             if len(codelist) == 3:
                 pt = '-PART' + codelist[2]
-            if len(codelist) > 0:
-                code = 'Heydouga ' + code + '-PPV'+ppv + pt
-        return code
+                rCode = rCode + pt
+        return rCode

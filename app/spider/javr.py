@@ -20,29 +20,37 @@ class Javr(UnsensoredSpider):
         '''
         item = []
         '获取查询结果页html对象'
+        qList = q.split(',')
+        q = q.replace(',', ' ')
         url = 'https://javr.club/?s=%s' % q
-        xpathResult = "//*[@id='cactus-body-container']/div/div/div/div[2]/div/div[6]/div/div[2]/article[1]/div/div[2]/h3/a"
+        xpathResult = "//div[@class='content']/h3[@class='cactus-post-title entry-title h4']/a/@href"
         html_item = self.getHtmlByurl(url)
         if not html_item['issuccess']:
             return item
 
-        resultName = html_item['html'].xpath(xpathResult)
-        if resultName is None:
-            return item
-        if len(resultName) == 0:
-            return item
-        if re.search(q, resultName[0].text, re.IGNORECASE):
-            resultUrl = html_item['html'].xpath(xpathResult)[0].attrib['href']
-            html_item = self.getHtmlByurl(resultUrl)
-            if html_item['issuccess']:
-                media_item = self.analysisMediaHtmlByxpath(
-                    html_item['html'], q)
-                if pt is not None:
-                    media_item.update({'m_number': media_item['m_number'] + pt})
-                    media_item.update({'m_title': media_item['m_title'] + pt})
-                item.append({'issuccess': True, 'data': media_item})
-            else:
-                pass  # print repr(html_item['ex'])
+        resultNameList = html_item['html'].xpath(xpathResult)
+        for resultName in resultNameList:
+            if resultName is None or len(resultName) == 0:
+                return item
+            if len(qList) > 0:
+                matchFlag = True
+                for qPart in qList:
+                    if not re.search(qPart, resultName, re.IGNORECASE):
+                        matchFlag = False
+                        break
+                if not matchFlag:
+                    continue
+                html_item = self.getHtmlByurl(resultName)
+                if html_item['issuccess']:
+                    media_item = self.analysisMediaHtmlByxpath(
+                        html_item['html'], q.replace(' ', '-'))
+                    if pt is not None:
+                        media_item.update({'m_number': media_item['m_number'] + pt})
+                        media_item.update({'m_title': media_item['m_title'] + pt})
+                    item.append({'issuccess': True, 'data': media_item})
+                    return item
+                else:
+                    pass  # print repr(html_item['ex'])
 
         return item
 
@@ -61,9 +69,9 @@ class Javr(UnsensoredSpider):
         xpath_p = "//div[@class='post-metadata']/p"
         p_list = html.xpath(xpath_p)
         for i in range(len(p_list)):
-            lab = html.xpath('%s[%s]/b/text()' % (xpath_p, (i+1)))
+            lab = html.xpath('%s[%s]/b/text()' % (xpath_p, (i + 1)))
             if lab[0] == 'Studio:':
-                studio = html.xpath('%s[%s]//text()' % (xpath_p, (i+1)))[2]
+                studio = html.xpath('%s[%s]//text()' % (xpath_p, (i + 1)))[2]
 
         xpath_title = "//h1[@class='entry-title1']/text()"
         title = html.xpath(xpath_title)
@@ -102,7 +110,8 @@ class Javr(UnsensoredSpider):
                 try:
                     actor.update({actorname: actor_url[i]})
                 except Exception as ex:
-                    actor.update({actorname: 'https://media.javr.club/wp-content/uploads/2019/02/pornstar-no-img-1.jpg'})
+                    actor.update(
+                        {actorname: 'https://media.javr.club/wp-content/uploads/2019/02/pornstar-no-img-1.jpg'})
 
             media.update({'m_actor': actor})
 

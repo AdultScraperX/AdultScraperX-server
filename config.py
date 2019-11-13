@@ -101,7 +101,7 @@ SOURCE_LIST = {
         },
         # Heyzo
         {
-            "pattern": "[Heyzo|HEYZO|heyzo].*\d{4}",
+            "pattern": "[HEYZO|heyzo].*\d{4}",
             'formatter': HeyzoFormatter,
             'webList': [Javr]
         },
