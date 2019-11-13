@@ -8,6 +8,13 @@ class Javr(UnsensoredSpider):
 
     def search(self, q):
 
+        # 影片分片设置
+        pt = None
+        codelist = re.findall(re.compile('-PART\d'), q)
+        if len(codelist) > 0:
+            pt = codelist[0]
+            q = q.replace(pt, '')
+
         '''
         执行查询函数
         '''
@@ -30,6 +37,9 @@ class Javr(UnsensoredSpider):
             if html_item['issuccess']:
                 media_item = self.analysisMediaHtmlByxpath(
                     html_item['html'], q)
+                if pt is not None:
+                    media_item.update({'m_number': media_item['m_number'] + pt})
+                    media_item.update({'m_title': media_item['m_title'] + pt})
                 item.append({'issuccess': True, 'data': media_item})
             else:
                 pass  # print repr(html_item['ex'])
@@ -47,37 +57,53 @@ class Javr(UnsensoredSpider):
         number = self.tools.cleanstr(q.upper())
         media.update({'m_number': number})
 
-        xpath_title = "//*[@id=\"cactus-body-container\"]/div/div/div/div[2]/div/div[2]/article/div[3]/h1"
-        title = html.xpath(xpath_title)[0].text
-        title = title.replace('Watch XXX Japanese Porn -', '')
-        media.update({'m_title': title})
-        media.update({'m_summary': title})
-        xpath_poster = '//*[@id="my-cover"]'
-        post_url = html.xpath(xpath_poster)[1].attrib['src']
-        media.update({'m_poster': post_url})
-        media.update({'m_art_url': post_url})
+        studio_text = ''
+        xpath_p = "//div[@class='post-metadata']/p"
+        p_list = html.xpath(xpath_p)
+        for i in range(len(p_list)):
+            lab = html.xpath('%s[%s]/b/text()' % (xpath_p, (i+1)))
+            if lab[0] == 'Studio:':
+                studio = html.xpath('%s[%s]//text()' % (xpath_p, (i+1)))[2]
 
-        xpath_studio = '//*[@id="cactus-body-container"]/div/div/div/div[2]/div/div[2]/article/div[3]/div[1]/div/p[3]/a'
-        if len(html.xpath(xpath_studio)) >0 :
-            studio = html.xpath(xpath_studio)[0].text
-            media.update({'m_studio': studio})
+        xpath_title = "//h1[@class='entry-title1']/text()"
+        title = html.xpath(xpath_title)
+        title = title[0].replace(
+            'Watch XXX Japanese Porn - ', '').replace(studio, '')
+        media.update({'m_title': title})
+
+        xpath_poster = "//img[@id='my-cover']/@src"
+        post_url_list = html.xpath(xpath_poster)
+        for post_url in post_url_list:
+            if len(re.findall('data:image', post_url)) < 1:
+                media.update({'m_poster': post_url})
+                media.update({'m_art_url': post_url})
+
+        media.update({'m_studio': studio})
 
         directors = ''
         media.update({'m_directors': directors})
 
-        xpath_category = "//*[@id=\"cactus-body-container\"]/div/div/div/div[2]/div/div[2]/article/div[3]/div[1]/div/div[2]/div/div/a"
+        xpath_category = "//div[@class='categories tags cactus-info']/a/text()"
         categorys = html.xpath(xpath_category)
         category_list = []
         for category in categorys:
-            category_list.append(self.tools.cleanstr(category.text))
+            category_list.append(self.tools.cleanstr(category))
         categorys = ','.join(category_list)
         if len(categorys) > 0:
             media.update({'m_category': categorys})
 
-        xpath_actor_name = "//*[@id=\"cactus-body-container\"]/div/div/div/div[2]/div/div[2]/article/div[4]/div/div[2]/a/p/span"
-        if len(html.xpath(xpath_actor_name)) > 0:
-            actor_name = html.xpath(xpath_actor_name)[0].text
-            xpath_actor_pic = '//*[@id="cactus-body-container"]/div/div/div/div[2]/div/div[2]/article/div[4]/div/div[1]/a/img'
-            actor_url = html.xpath(xpath_actor_pic)[0].attrib['data-src']
-            media.update({'m_actor': {actor_name: actor_url}})
+        actor = {}
+        xpath_actor_name = "//div[@class='channel-content']//a/h4/text()"
+        xpath_actor_url = "//div[@class='post-metadata sp-style style-5']//a/img/@data-src"
+        actor_name = html.xpath(xpath_actor_name)
+        actor_url = html.xpath(xpath_actor_url)
+        if len(actor_name) > 0:
+            for i, actorname in enumerate(actor_name):
+                try:
+                    actor.update({actorname: actor_url[i]})
+                except Exception as ex:
+                    actor.update({actorname: 'https://media.javr.club/wp-content/uploads/2019/02/pornstar-no-img-1.jpg'})
+
+            media.update({'m_actor': actor})
+
         return media

@@ -61,7 +61,7 @@ class Caribbean(UnsensoredSpider):
             media.update({'m_summary': summary})
 
         media.update({'m_poster': 'https://%s/moviepages/%s/images/l_l.jpg' % (self.basicUrl, number)})
-        media.update({'m_art_url': 'https://%s/moviepages/%s/images/s/001.jpg' % (self.basicUrl, number)})
+        media.update({'m_art_url': 'https://%s/moviepages/%s/images/l_l.jpg' % (self.basicUrl, number)})
 
 
         xpath_studio = "//li[@class='movie-detail__spec'][4]/span[@class='spec-content']/a/text()"

@@ -1,8 +1,11 @@
 import logging
 # 格式化
+from app.formatter.HeydougaFormatter import HeydougaFormatter
 from app.formatter.CaribbeancomprFormatter import CaribbeancomprFormatter
 from app.formatter.CaribbeanFormatter import CaribbeanFormatter
+from app.formatter.HeyzoFormatter import HeyzoFormatter
 from app.formatter.ReMediaMatterFormatter import ReMediaMatterFormatter
+from app.formatter.TokyoHotFormatter import TokyoHotFormatter
 from app.formatter.censoredFormatter import CensoredFormatter
 from app.formatter.fc2ppvFormatter import Fc2ppvFormater
 from app.formatter.onePondoFormatter import OnePondoFormatter
@@ -54,48 +57,61 @@ SOURCE_LIST = {
         }],
     # 无码搜刮
     'uncensored': [
-        # Caribbean
+        # # Caribbean
+        # {
+        #     "pattern": "\d{6}.\d{3}",
+        #     'formatter': CaribbeanFormatter,
+        #     'webList': [Caribbean, Javr]
+        # },
+        # # Caribbeancompr
+        # {
+        #     "pattern": "\d{6}.\d{3}",
+        #     'formatter': CaribbeancomprFormatter,
+        #     'webList': [Caribbeancompr, Javr]
+        # },
+        # # FC2PPV
+        # {
+        #     "pattern": "[fc|Fc|FC].*\d{6}",
+        #     'formatter': Fc2ppvFormater,
+        #     'webList': [Javr]
+        # },
+        # # Heydouga
+        # {
+        #     "pattern": "[Heydouga|HEYDOUGA|heydouga]\w*\d+.*\d+[.*\d]{0,1}",
+        #     'formatter': HeydougaFormatter,
+        #     'webList': [Javr]
+        # },
+        # # Heyzo
+        # {
+        #     "pattern": "[Heyzo|HEYZO|heyzo]\w*\d{4}",
+        #     'formatter': HeyzoFormatter,
+        #     'webList': [Javr]
+        # },
+        # # one_pondo
+        # {
+        #     "pattern": "\d{6}.\d{3}",
+        #     'formatter': OnePondoFormatter,
+        #     'webList': [OnePondo, Javr]
+        # },
+        # TokyoHot
         {
-            "pattern": "\d{6}.\d{3}",
-            'formatter': CaribbeanFormatter,
-            'webList': [Caribbean, Javr]
-        },
-        # Caribbeancompr
-        {
-            "pattern": "\d{6}.\d{3}",
-            'formatter': CaribbeancomprFormatter,
-            'webList': [Caribbeancompr, Javr]
-        },
-        # FC2PPV
-        {
-            "pattern": "[fc|Fc|FC].*\d{6}",
-            'formatter': Fc2ppvFormater,
+            "pattern": "[A-Za-z]+[\ -]?\d+",
+            'formatter': TokyoHotFormatter,
             'webList': [Javr]
         },
-        # one_pondo
-        {
-            "pattern": "\d{6}.\d{3}",
-            'formatter': OnePondoFormatter,
-            'webList': [OnePondo, Javr]
-        },
         # # Pacopacomama
-        {
-            "pattern": "\d{6}.\d{3}",
-            'formatter': OnePondoFormatter,
-            'webList': [PacoPacoMama, Javr]
-        },
-        # _10musume
-        {
-            "pattern": "\d{6}.\d{2}",
-            'formatter': TenMusumeFormatter,
-            'webList': [TenMusume, Javr]
-        },
-        # # Muramura
         # {
-        #     "pattern": "[a-zA-Z]+[\ -]?\d{3}",
-        #     'formatter': MuramuraFormatter,
-        #     'webList': [Muramura]
-        # }
+        #     "pattern": "\d{6}.\d{3}",
+        #     'formatter': OnePondoFormatter,
+        #     'webList': [PacoPacoMama, Javr]
+        # },
+        # # _10musume
+        # {
+        #     "pattern": "\d{6}.\d{2}",
+        #     'formatter': TenMusumeFormatter,
+        #     'webList': [TenMusume, Javr]
+        # },
+
     ],
 
     # 动漫搜刮
