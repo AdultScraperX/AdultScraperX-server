@@ -1,6 +1,7 @@
 import logging
 # 格式化
 from app.formatter.HeydougaFormatter import HeydougaFormatter
+from app.formatter.HeydougaOfficialFormatter import HeydougaOfficialFormatter
 from app.formatter.CaribbeancomprFormatter import CaribbeancomprFormatter
 from app.formatter.CaribbeanFormatter import CaribbeanFormatter
 from app.formatter.HeyzoFormatter import HeyzoFormatter
@@ -12,6 +13,7 @@ from app.formatter.onePondoFormatter import OnePondoFormatter
 from app.formatter.tenMusumeFormatter import TenMusumeFormatter
 from app.formatter.data18Formatter import Data18Formatter
 from app.formatter.basicFormatter import BasicFormater
+
 # 爬虫
 from app.spider.arzon import Arzon
 from app.spider.caribbeancompr import Caribbeancompr
@@ -24,6 +26,7 @@ from app.spider.onePondo import OnePondo
 from app.spider.pacoPacoMama import PacoPacoMama
 from app.spider.tenMusume import TenMusume
 from app.spider.data18 import Data18
+from app.spider.heydougaOfficial import HeydougaOfficial
 
 HOST = '0.0.0.0'
 PORT = 9999
@@ -81,33 +84,40 @@ SOURCE_LIST = {
             'formatter': TenMusumeFormatter,
             'webList': [TenMusume, Javr]
         },
-        # FC2PPV
-        {
-            "pattern": "[fc|Fc|FC].*\d{6}",
-            'formatter': Fc2ppvFormater,
-            'webList': [Javr]
-        },
         # one_pondo
         {
             "pattern": "\d{6}.\d{3}",
             'formatter': OnePondoFormatter,
             'webList': [OnePondo, Javr]
         },
-        # Heydouga
+        # FC2PPV
         {
-            "pattern": "[Heydouga|HEYDOUGA|heydouga].*\d+.*\d+[.*\d]{0,1}",
+            "pattern": "(fc|Fc|FC).*\d{6,7}",
+            'formatter': Fc2ppvFormater,
+            'webList': [Javr]
+        },
+
+        # Heydouga for official  4037/427   3004/q1234   ppv-051619_095   hzo-1992
+        {
+            "pattern": r"[0-9]{4}\D[0-9]{1,5}|[0-9]{4}\D(Q|q)[0-9]{1,5}|[0-9]{4}\D(.{3})\D[0-9]{4}|[0-9]{4}\D(.{3})\D[0-9]{6}\D[0-9]{3}",
+            'formatter': HeydougaOfficialFormatter,
+            'webList': [HeydougaOfficial]
+        },
+        # Heydouga for javr
+        {
+            "pattern": "(Heydouga|HEYDOUGA|heydouga).*\d+.*\d+[.*\d]{0,1}",
             'formatter': HeydougaFormatter,
             'webList': [Javr]
         },
         # Heyzo
         {
-            "pattern": "[HEYZO|heyzo].*\d{4}",
+            "pattern": "(Heyzo|HEYZO|heyzo).*\d{4}",
             'formatter': HeyzoFormatter,
             'webList': [Javr]
         },
         # TokyoHot
         {
-            "pattern": "[tokyo|TOKYO].*[A-Za-z]+[\ -]?\d+",
+            "pattern": "(tokyo|TOKYO|Tokyo).*[A-Za-z]+[\ -]?\d+",
             'formatter': TokyoHotFormatter,
             'webList': [Javr]
         },

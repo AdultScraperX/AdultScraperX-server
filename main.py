@@ -99,7 +99,10 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
     if dirTagLine != "" or not CONFIG.SOURCE_LIST[dirTagLine]:
         for template in CONFIG.SOURCE_LIST[dirTagLine]:
             # 循环模板列表
-            codeList = re.findall(re.compile(template['pattern']), q)
+            codeList = []
+            re_list = re.finditer(template['pattern'], q, re.IGNORECASE)
+            for item in re_list:
+                codeList.append(item.group())
             if len(codeList) == 0:
                 continue
             # 对正则匹配结果进行搜索
