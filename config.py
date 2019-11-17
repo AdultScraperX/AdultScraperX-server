@@ -13,6 +13,7 @@ from app.formatter.onePondoFormatter import OnePondoFormatter
 from app.formatter.tenMusumeFormatter import TenMusumeFormatter
 from app.formatter.data18Formatter import Data18Formatter
 from app.formatter.basicFormatter import BasicFormater
+from app.formatter.HeyzoOfficialFormatter import HeyzoOfficialFormatter
 
 # 爬虫
 from app.spider.arzon import Arzon
@@ -27,6 +28,7 @@ from app.spider.pacoPacoMama import PacoPacoMama
 from app.spider.tenMusume import TenMusume
 from app.spider.data18 import Data18
 from app.spider.heydougaOfficial import HeydougaOfficial
+from app.spider.HeyzoOfficial import HeyzoOfficial
 
 HOST = '0.0.0.0'
 PORT = 9999
@@ -60,35 +62,42 @@ SOURCE_LIST = {
         }],
     # 无码搜刮
     'uncensored': [
-        # FC2PPV
-        {
-            "pattern": "(fc|Fc|FC).*\d{6,7}",
-            'formatter': Fc2ppvFormater,
-            'webList': [Javr]
-        },
-
+        
         # Heydouga for official  4037/427   3004/q1234   ppv-051619_095   hzo-1992
         {
             "pattern": r"[0-9]{4}\D[0-9]{1,5}|[0-9]{4}\D(Q|q)[0-9]{1,5}|[0-9]{4}\D(.{3})\D[0-9]{4}|[0-9]{4}\D(.{3})\D[0-9]{6}\D[0-9]{3}",
             'formatter': HeydougaOfficialFormatter,
             'webList': [HeydougaOfficial]
         },
-        # Heydouga for javr
+         # Heydouga for javr
         {
-            "pattern": "(Heydouga|HEYDOUGA|heydouga).*\d+.*\d+[.*\d]{0,1}",
+            "pattern": "[Heydouga|HEYDOUGA|heydouga].*\d+.*\d+[.*\d]{0,1}",
             'formatter': HeydougaFormatter,
             'webList': [Javr]
         },
-        # Heyzo
+        # heyzo for official  1234
         {
-            "pattern": "(Heyzo|HEYZO|heyzo).*\d{4}",
+            "pattern": r"[0-9]{4}|hzo\D[0-9]{4}|heyzo\D[0-9]{4}",
+            'formatter': HeyzoOfficialFormatter,
+            'webList': [HeyzoOfficial]
+        },
+       
+        # Heyzo for javr
+        {
+            "pattern": "[Heyzo|HEYZO|heyzo].*\d{4}",
             'formatter': HeyzoFormatter,
             'webList': [Javr]
         },
-        # TokyoHot
+        # TokyoHot for javr
         {
-            "pattern": "(tokyo|TOKYO|Tokyo).*[A-Za-z]+[\ -]?\d+",
+            "pattern": "[tokyo|TOKYO].*[A-Za-z]+[\ -]?\d+",
             'formatter': TokyoHotFormatter,
+            'webList': [Javr]
+        },
+        # FC2PPV for javr
+        {
+            "pattern": "[fc|Fc|FC].*\d{6}",
+            'formatter': Fc2ppvFormater,
             'webList': [Javr]
         },
         # Caribbean
@@ -121,6 +130,7 @@ SOURCE_LIST = {
             'formatter': OnePondoFormatter,
             'webList': [OnePondo, Javr]
         },
+
     ],
 
     # 动漫搜刮
