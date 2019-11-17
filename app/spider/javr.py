@@ -47,9 +47,9 @@ class Javr(UnsensoredSpider):
                     if html_item['issuccess']:
                         media_item = self.analysisMediaHtmlByxpath(
                             html_item['html'], q.replace(' ', '-'))
-                        if pt is not None:
-                            media_item.update({'m_number': media_item['m_number'] + pt})
-                            media_item.update({'m_title': media_item['m_title'] + pt})
+                        # if pt is not None:
+                        #     media_item.update({'m_number': media_item['m_number'] + pt})
+                        #     media_item.update({'m_title': media_item['m_title'] + pt})
                         item.append({'issuccess': True, 'data': media_item})
                         return item
                     else:

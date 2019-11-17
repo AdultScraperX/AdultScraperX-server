@@ -60,36 +60,6 @@ SOURCE_LIST = {
         }],
     # 无码搜刮
     'uncensored': [
-        # Caribbean
-        {
-            "pattern": "\d{6}.\d{3}",
-            'formatter': CaribbeanFormatter,
-            'webList': [Caribbean, Javr]
-        },
-        # Caribbeancompr
-        {
-            "pattern": "\d{6}.\d{3}",
-            'formatter': CaribbeancomprFormatter,
-            'webList': [Caribbeancompr, Javr]
-        },
-        # Pacopacomama
-        {
-            "pattern": "\d{6}.\d{3}",
-            'formatter': OnePondoFormatter,
-            'webList': [PacoPacoMama, Javr]
-        },
-        # _10musume
-        {
-            "pattern": "\d{6}.\d{2}",
-            'formatter': TenMusumeFormatter,
-            'webList': [TenMusume, Javr]
-        },
-        # one_pondo
-        {
-            "pattern": "\d{6}.\d{3}",
-            'formatter': OnePondoFormatter,
-            'webList': [OnePondo, Javr]
-        },
         # FC2PPV
         {
             "pattern": "(fc|Fc|FC).*\d{6,7}",
@@ -121,8 +91,36 @@ SOURCE_LIST = {
             'formatter': TokyoHotFormatter,
             'webList': [Javr]
         },
-
-
+        # Caribbean
+        {
+            "pattern": "\d{6}.\d{3}",
+            'formatter': CaribbeanFormatter,
+            'webList': [Caribbean, Javr]
+        },
+        # Caribbeancompr
+        {
+            "pattern": "\d{6}.\d{3}",
+            'formatter': CaribbeancomprFormatter,
+            'webList': [Caribbeancompr, Javr]
+        },
+        # Pacopacomama
+        {
+            "pattern": "\d{6}.\d{3}",
+            'formatter': OnePondoFormatter,
+            'webList': [PacoPacoMama, Javr]
+        },
+        # _10musume
+        {
+            "pattern": "\d{6}.\d{2}",
+            'formatter': TenMusumeFormatter,
+            'webList': [TenMusume, Javr]
+        },
+        # one_pondo
+        {
+            "pattern": "\d{6}.\d{3}",
+            'formatter': OnePondoFormatter,
+            'webList': [OnePondo, Javr]
+        },
     ],
 
     # 动漫搜刮
