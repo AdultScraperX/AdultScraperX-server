@@ -51,6 +51,7 @@ class Tools():
         st = st.replace(u'\xa0', '')
         st = st.replace(u'\u5ec3', '')
         st = st.replace(u'\u76e4', '')
+        st = st.replace('\t','')
         return st
 
     def cleanstr2(self, st):

@@ -62,14 +62,14 @@ SOURCE_LIST = {
         }],
     # 无码搜刮
     'uncensored': [
-        
+
         # Heydouga for official  4037/427   3004/q1234   ppv-051619_095   hzo-1992
         {
             "pattern": r"[0-9]{4}\D[0-9]{1,5}|[0-9]{4}\D(Q|q)[0-9]{1,5}|[0-9]{4}\D(.{3})\D[0-9]{4}|[0-9]{4}\D(.{3})\D[0-9]{6}\D[0-9]{3}",
             'formatter': HeydougaOfficialFormatter,
             'webList': [HeydougaOfficial]
         },
-         # Heydouga for javr
+        # Heydouga for javr
         {
             "pattern": "[Heydouga|HEYDOUGA|heydouga].*\d+.*\d+[.*\d]{0,1}",
             'formatter': HeydougaFormatter,
@@ -77,11 +77,11 @@ SOURCE_LIST = {
         },
         # heyzo for official  1234
         {
-            "pattern": r"[0-9]{4}|hzo\D[0-9]{4}|heyzo\D[0-9]{4}",
+            "pattern": r"[0-9]{4}|hzo\D[0-9]{4}|heyzo\D[0-9]{4}|hzo[0-9]{4}|heyzo[0-9]{4}",
             'formatter': HeyzoOfficialFormatter,
             'webList': [HeyzoOfficial]
         },
-       
+
         # Heyzo for javr
         {
             "pattern": "[Heyzo|HEYZO|heyzo].*\d{4}",
