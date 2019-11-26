@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from app.spider.basic_spider import BasicSpider
+from PIL import Image
+import re
 import sys
 if sys.version.find('2', 0, 1) == 0:
     try:
@@ -9,9 +12,6 @@ else:
     from io import StringIO
     from io import BytesIO
 
-from PIL import Image
-from app.spider.basic_spider import BasicSpider
-
 
 class Data18(BasicSpider):
 
@@ -19,7 +19,7 @@ class Data18(BasicSpider):
         '''
         执行查询函数
         '''
-        item = []
+        re_item = []
 
         '访问站点'
         url = 'https://data18.empirestores.co/Search?q=%s' % q
@@ -28,22 +28,60 @@ class Data18(BasicSpider):
             '检测是否是为查询到结果'
             xpath_404 = "//div[@class='noresults']/h1/text()"
             if len(list_html_item['html'].xpath(xpath_404)) > 0:
-                return item
+                return re_item
 
-            '获取html对象'
+            '获取title进行比分筛选'
+            Compared = {}
+            titles_xpath = "//span[@class='overlay-inner']/text()"
+            titles_List = self.getitemspage(
+                list_html_item['html'], titles_xpath)
+            for i in range(len(titles_List)):
+                
+
+                tmp_count = 0
+                keywork_List = q.replace('\t', '').split(' ')
+                
+
+                while '' in keywork_List:
+                    keywork_List.remove('')
+
+                # 对比关键字命中
+                for item in keywork_List:
+                    n1 = re.findall(r'[0-9]+',q)
+                    n2 = re.findall(r'[0-9]+',titles_List[i].replace('\t', ''))
+                    if not n1 == n2:                    
+                        continue
+                    if not titles_List[i].replace('\t', '').upper().find(item.upper()) == -1:
+                        tmp_count = (tmp_count+1)
+                Compared.update({'%s' % i: tmp_count})
+                
+
+
+
+            top = sorted(Compared.items(),
+                         key=lambda item: item[1], reverse=True)
+            j = int(top[0][0])
+            # =============
+            # 以上代码罗技欠缺  匹配次数最多并不一定是准确的
+            # 举例:
+            # 关键字
+            # A HOTWIFE BLINDFOLDED
+            # 匹配结果
+            # Hotwife Blindfolded 4, A
+            # =============
+
             xpaths = "//div[@class='grid-item']/a[1]/@href"
             page_url_list = self.getitemspage(list_html_item['html'], xpaths)
-            for page_url in page_url_list:
-                if page_url != '':
-                    page_url = 'https://data18.empirestores.co%s' % page_url
-                    html_item = self.getHtmlByurl(page_url)
-                    '解析html对象'
-                    item.append({'issuccess': True, 'data': self.analysisMediaHtmlByxpath(html_item['html'])})
-
+            if len(page_url_list) > 0:
+                page_url = 'https://data18.empirestores.co%s' % page_url_list[j]
+                html_item = self.getHtmlByurl(page_url)
+                '解析html对象'
+                re_item.append(
+                    {'issuccess': True, 'data': self.analysisMediaHtmlByxpath(html_item['html'])})
         else:
             print(list_html_item['ex'])
 
-        return item
+        return re_item
 
     def analysisMediaHtmlByxpath(self, html):
         """
@@ -59,10 +97,11 @@ class Data18(BasicSpider):
             title = self.tools.cleanstr2(title[0])
             media.update({'m_title': title})
 
-        xpath_poster = "//div[@class='carousel-item active']/img[@class='img-fluid mx-auto']/@src"
+        xpath_poster = "//img[@class='img-fluid mx-auto']/@src"
         poster = html.xpath(xpath_poster)
         if len(poster) > 0:
             poster = self.tools.cleanstr(poster[0])
+            poster =  poster.replace('/10/','/500/')
             media.update({'m_poster': poster})
             media.update({'m_art_url': poster})
 

@@ -20,14 +20,15 @@ class HeyzoOfficial(UnsensoredSpider):
         执行查询函数
         '''
         item = []
+        queryKeyword = q.replace('heyzo-', '')
 
         '获取查询结果列表页html对象'
-        url = 'https://www.heyzo.com/moviepages/%s/index.html' % q
+        url = 'https://www.heyzo.com/moviepages/%s/index.html' % queryKeyword
 
         html_item = self.getHtmlByurl(url)
         if html_item['issuccess']:
             media_item = self.analysisMediaHtmlByxpath(
-                html_item['html'], q)
+                html_item['html'], queryKeyword)
             item.append({'issuccess': True, 'data': media_item})
         else:
             pass  # print repr(html_item['ex'])
@@ -50,7 +51,7 @@ class HeyzoOfficial(UnsensoredSpider):
             self.media.update({'m_number': number})
         '''
         media = self.media.copy()
-        number = self.tools.cleanstr(q.upper())
+        number =  'heyzo-%s' % self.tools.cleanstr(q.upper())
         media.update({'m_number': number})
 
         xpath_title = "//div[@id='wrapper']/article/section[1]/div[@id='movie']/h1/text()"
@@ -77,7 +78,7 @@ class HeyzoOfficial(UnsensoredSpider):
         collections = html.xpath(xpath_collections)
         if len(collections) > 0:
             collections = self.tools.cleanstr(collections[0])
-            if not collections == '-----':                
+            if not collections == '-----':
                 media.update({'m_collections': collections})
 
         xpath_year = "//tr[@class='table-release-day']/td[2]/text()"

@@ -93,9 +93,10 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
     logging.info(u'文件名：%s' % q)
     logging.info(u'目录标记：%s' % dirTagLine)
     cacheFlag = True
-    if '--withoutCache' in q:
+    if q.find(CONFIG.CacheTag) > -1:  # 判断是否跳过缓存数据库
+        logging.info(u'手动强制输入命令%s跳过使用缓存库' % CONFIG.CacheTag)
         cacheFlag = False
-        q.replace('--withoutCache', '')
+        q = q.replace(CONFIG.CacheTag, '')
     if dirTagLine != "" or not CONFIG.SOURCE_LIST[dirTagLine]:
         for template in CONFIG.SOURCE_LIST[dirTagLine]:
             # 循环模板列表
@@ -124,7 +125,7 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
     return json.dumps({'issuccess': 'false', 'json_data': [], 'ex': ''})
 
 
-def search(webList, q, autoFlag, cacheFlag = False):
+def search(webList, q, autoFlag, cacheFlag=False):
     """
     根据搜刮网站列表进行数据搜刮
     :param cacheFlag: 使用缓存标识

@@ -36,6 +36,10 @@ HOST = '0.0.0.0'
 PORT = 9999
 DEBUG = False
 
+#设置缓存标志
+CacheTag='---'
+
+#管理员TOKEN
 SERVE_ADMIN_TOKEN = 'theBestAVScraper'
 
 MONGODB_HOST = 'mineserver.top'
@@ -44,6 +48,7 @@ MONGODB_DBNAME = 'adultscraperx'
 MONGODB_USER = 'adultscraperx'
 MONGODB_PWD = 'adultscraperx'
 
+#图片处理默认值
 IMG_R = 373
 IMG_W = 800
 IMG_H = 538
@@ -58,85 +63,87 @@ SOURCE_LIST = {
     'censored': [
         # 常规有码影片搜刮
         {
-            "pattern": "\w+[\ -]?\d{3}",
+            #"pattern": r"\w+[\ -]?\d{1,3}",
+            "pattern": r"\w+[a-z]{2,5}\D{1}\d{1,3}|[a-z]{2,5}\d{1,3}",
             'formatter': CensoredFormatter,
             'webList': [Arzon, Javbus, Onejav]
-        }],
+        },
+        #  MGSBlogg 
+        {
+            "pattern": r"200GANA\D{1}[0-9]{4}|200GANA[0-9]{4}|259LUXU\D{1}[0-9]{4}|259LUXU[0-9]{4}|SIRO\D{1}[0-9]{4}|SIRO[0-9]{4}|300MIUM\D{1}[0-9]{3}|300MIUM[0-9]{3}|300MAAN\D{1}[0-9]{3}|300MAAN[0-9]{3}|261ARA\D{1}[0-9]{3}|261ARA[0-9]{3}|277DCV\D{1}[0-9]{3}|277DCV[0-9]{3}|230ORE\D{1}[0-9]{3}|230ORE[0-9]{3}|300NTK\D{1}[0-9]{3}|300NTK[0-9]{3}|336KNB\D{1}[0-9]{3}|336KNB[0-9]{3}|320MMGH\D{1}[0-9]{3}|320MMGH[0-9]{3}|332NAMA\D{1}[0-9]{3}|332NAMA[0-9]{3}|279UTSU\D{1}[0-9]{3}|279UTSU[0-9]{3}|345SIMM\D{1}[0-9]{3}|345SIMM[0-9]{3}|276KITAIKE\D{1}[0-9]{3}|276KITAIKE[0-9]{3}|326SCP\D{1}[0-9]{3}|326SCP[0-9]{3}|326SPOR\D{1}[0-9]{3}|326SPOR[0-9]{3}|348NTR\D{1}[0-9]{3}|348NTR[0-9]{3}|326URF\D{1}[0-9]{3}|326URF[0-9]{3}|274ETQT\D{1}[0-9]{3}|274ETQT[0-9]{3}|326EVA\D{1}[0-9]{3}|326EVA[0-9]{3}|409BZDC\D{1}[0-9]{3}|409BZDC[0-9]{3}",
+            'formatter': MGSBloggFormatter,
+            'webList': [MGSBlogg]
+        }
+    ],
     # 无码搜刮
     'uncensored': [
 
         # Heydouga for official  4037/427   3004/q1234   ppv-051619_095   hzo-1992
         {
-            "pattern": r"[0-9]{4}\D[0-9]{1,5}|[0-9]{4}\D(Q|q)[0-9]{1,5}|[0-9]{4}\D(.{3})\D[0-9]{4}|[0-9]{4}\D(.{3})\D[0-9]{6}\D[0-9]{3}",
+            "pattern": r"Heydouga\D{1}[0-9]{4}\D[0-9]{1,5}|Heydouga[0-9]{4}\D[0-9]{1,5}|Heydouga\D{1}[0-9]{4}\D(Q|q)[0-9]{1,5}|Heydouga[0-9]{4}\D(Q|q)[0-9]{1,5}|Heydouga\D{1}[0-9]{4}\D(.{3})\D{1}[0-9]{4}|Heydouga[0-9]{4}\D(.{3})\D{1}[0-9]{4}|Heydouga\D{1}[0-9]{4}\D(.{3})\D[0-9]{6}\D{1}[0-9]{3}|Heydouga[0-9]{4}\D(.{3})\D[0-9]{6}\D{1}[0-9]{3}",
             'formatter': HeydougaOfficialFormatter,
             'webList': [HeydougaOfficial]
         },
         # Heydouga for javr
         {
-            "pattern": "[Heydouga|HEYDOUGA|heydouga].*\d+.*\d+[.*\d]{0,1}",
+            "pattern": r"[Heydouga|HEYDOUGA|heydouga].*\d+.*\d+[.*\d]{0,1}",
             'formatter': HeydougaFormatter,
             'webList': [Javr]
         },
         # heyzo for official  1234
         {
-            "pattern": r"[0-9]{4}|hzo\D[0-9]{4}|heyzo\D[0-9]{4}|hzo[0-9]{4}|heyzo[0-9]{4}",
+            "pattern": r"hzo\D{1}[0-9]{4}|heyzo\D{1}[0-9]{4}|hzo[0-9]{4}|heyzo[0-9]{4}",
             'formatter': HeyzoOfficialFormatter,
             'webList': [HeyzoOfficial]
         },
 
         # Heyzo for javr
         {
-            "pattern": "[Heyzo|HEYZO|heyzo].*\d{4}",
+            "pattern": r"[Heyzo|HEYZO|heyzo].*\d{4}",
             'formatter': HeyzoFormatter,
             'webList': [Javr]
         },
         # TokyoHot for javr
         {
-            "pattern": "[tokyo|TOKYO].*[A-Za-z]+[\ -]?\d+",
+            "pattern": r"[tokyo|TOKYO].*[A-Za-z]+[\ -]?\d+",
             'formatter': TokyoHotFormatter,
             'webList': [Javr]
         },
         # FC2PPV for javr
         {
-            "pattern": "[fc|Fc|FC].*\d{6}",
+            "pattern": r"[fc|Fc|FC].*\d{6}",
             'formatter': Fc2ppvFormater,
             'webList': [Javr]
         },
         # Caribbean
         {
-            "pattern": "\d{6}.\d{3}",
+            "pattern": r"Carib\D{1}\d{6}.\d{3}|Caribbean\D{1}\d{6}.\d{3}|Carib\d{6}.\d{3}|Caribbean\d{6}.\d{3}|\d{6}.\d{3}",
             'formatter': CaribbeanFormatter,
             'webList': [Caribbean, Javr]
         },
         # Caribbeancompr
         {
-            "pattern": "\d{6}.\d{3}",
+            "pattern": r"Carib\D{1}\d{6}.\d{3}|Caribbean\D{1}\d{6}.\d{3}|Carib\d{6}.\d{3}|Caribbean\d{6}.\d{3}|\d{6}.\d{3}",
             'formatter': CaribbeancomprFormatter,
             'webList': [Caribbeancompr, Javr]
         },
         # Pacopacomama
         {
-            "pattern": "\d{6}.\d{3}",
+            "pattern": r"Pacopacomama\D{1}\d{6}.\d{3}|Pacopa\D{1}\d{6}.\d{3}|pacopaco\D{1}\d{6}.\d{3}|pacomama\D{1}\d{6}.\d{3}|Pacopacomama\d{6}.\d{3}|Pacopa\d{6}.\d{3}|pacopaco\d{6}.\d{3}|pacomama\d{6}.\d{3}|\d{6}.\d{3}",
             'formatter': OnePondoFormatter,
             'webList': [PacoPacoMama, Javr]
         },
-        # _10musume
+        # 10musume
         {
-            "pattern": "\d{6}.\d{2}",
+            "pattern": r"10musume\D{1}|10mus\D{1}\d{6}.\d{2}|10mu\D{1}\d{6}.\d{2}|10musume\d{6}.\d{2}|10mus\d{6}.\d{2}|10mu\d{6}.\d{2}|\d{6}.\d{2}",
             'formatter': TenMusumeFormatter,
             'webList': [TenMusume, Javr]
         },
         # one_pondo
         {
-            "pattern": "\d{6}.\d{3}",
+            "pattern": r"onepondo\D{1}\d{6}.\d{3}|Pondo\D{1}\d{6}.\d{3}|TokyoPondo\D{1}\d{6}.\d{3}|1ppondo\D{1}\d{6}.\d{3}|onepondo\d{6}.\d{3}|Pondo\d{6}.\d{3}|TokyoPondo\d{6}.\d{3}|1ppondo\d{6}.\d{3}|\d{6}.\d{3}",
             'formatter': OnePondoFormatter,
             'webList': [OnePondo, Javr]
-        },
-        #  MGSBlogg
-        {
-            "pattern": r"200GANA\D[0-9]{4}|200GANA[0-9]{4}|259LUXU\D[0-9]{4}|259LUXU[0-9]{4}|SIRO\D[0-9]{4}|SIRO[0-9]{4}|300MIUM\D[0-9]{3}|300MIUM[0-9]{3}|300MAAN\D[0-9]{3}|300MAAN[0-9]{3}|261ARA\D[0-9]{3}|261ARA[0-9]{3}|277DCV\D[0-9]{3}|277DCV[0-9]{3}|230ORE\D[0-9]{3}|230ORE[0-9]{3}|300NTK\D[0-9]{3}|300NTK[0-9]{3}|336KNB\D[0-9]{3}|336KNB[0-9]{3}|320MMGH\D[0-9]{3}|320MMGH[0-9]{3}|332NAMA\D[0-9]{3}|332NAMA[0-9]{3}|279UTSU\D[0-9]{3}|279UTSU[0-9]{3}|345SIMM\D[0-9]{3}|345SIMM[0-9]{3}|276KITAIKE\D[0-9]{3}|276KITAIKE[0-9]{3}|326SCP\D[0-9]{3}|326SCP[0-9]{3}|326SPOR\D[0-9]{3}|326SPOR[0-9]{3}|348NTR\D[0-9]{3}|348NTR[0-9]{3}|326URF\D[0-9]{3}|326URF[0-9]{3}|274ETQT\D[0-9]{3}|274ETQT[0-9]{3}|326EVA\D[0-9]{3}|326EVA[0-9]{3}|409BZDC\D[0-9]{3}|409BZDC[0-9]{3}",
-            'formatter': MGSBloggFormatter,
-            'webList': [MGSBlogg]
         }
 
     ],
@@ -144,7 +151,7 @@ SOURCE_LIST = {
     # 动漫搜刮
     'animation': [
         {
-            'pattern': '.+',
+            'pattern': r'[a-z]{1,5}\D{1}[0-9]{1,5}|[a-z]{1,5}[0-9]{1,5}|.+',
             'formatter': ReMediaMatterFormatter,
             'webList': [ArzonAnime]
         }

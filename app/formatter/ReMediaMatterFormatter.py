@@ -4,7 +4,8 @@ import re
 
 class ReMediaMatterFormatter(BasicFormater):
 
-    def format(code):
+    def format(code):        
+        code = code.replace(' ','')
         code = code.lower()
         re_tmp = re.findall(
             r'[a-z]{1,5}-[0-9]{1,5}', code)
@@ -16,7 +17,7 @@ class ReMediaMatterFormatter(BasicFormater):
 
     def reMediaName(medianame):
         relist = []
-        medianame = medianame.replace('-', ' ').replace('_', ' ')
+        medianame = medianame.replace('-', ' ').replace('_', ' ').replace('.',' ')
         relist.append(r'vol[0-9]{1,3}|vol.[0-9]{1,3}|vol [0-9]{1,3}')
         relist.append(r'\(|\)|\[|\]|\{|\}|【|】')
         relist.append(r'[0-9]{1,4}x[0-9]{1,4}')
@@ -38,6 +39,8 @@ class ReMediaMatterFormatter(BasicFormater):
         relist.append(r'\+')
         relist.append(r'BIG5')
         relist.append(r'～')
+        relist.append(r'xxx')
+        relist.append(r'kukas')
         relist.append(
             r'\.PROPER|\.DUPE|\.UNRATE|\.R-RATE|\.SE|\.DC|\.LIMITED|\.TS|DTS-HD|1080p|720p|BluRay|KR-OneHD|OneHD|LPCM 2 0|CNHK|1080i|MA 2\.0-DiY|[0-9]{1,2}bit')  # 标签
         relist.append(
@@ -50,9 +53,10 @@ class ReMediaMatterFormatter(BasicFormater):
         relist.append(
             r'^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,6}$')  # 网址
         relist.append(
-            r'dvd|DVDrip|BDrip|HDTVRip|DVDScr|divx|Screener| TS1| VHS|VHSRip|TVRip| vcd|svcd|XviDrips|XviD|DivX|DivX[0-9]\.[0-9]{1.2}|DivX[0-9]|DivXRe-Enc|DivXRe|PDVD')  # 标记
+            r'rip|dvd|DVDrip|BDrip|HDTVRip|DVDScr|divx|Screener| TS1| VHS|VHSRip|TVRip| vcd|svcd|XviDrips|XviD|DivX|DivX[0-9]\.[0-9]{1.2}|DivX[0-9]|DivXRe-Enc|DivXRe|PDVD')  # 标记
         reg = '|'.join(relist)
         reg = reg.lower()
         re.compile(reg)
         medianame = re.sub(reg, '', medianame.lower(), flags=re.IGNORECASE)
-        return medianame.replace('.', ' ').replace('com ', '').replace(' com', '').replace('  ', ' ').replace('「',' ').replace('」',' ')
+        medianame =  medianame.replace('.', ' ').replace('com ', '').replace(' com', '').replace('  ', ' ').replace('「',' ').replace('」',' ')
+        return medianame

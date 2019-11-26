@@ -21,15 +21,16 @@ class HeydougaOfficial(UnsensoredSpider):
         执行查询函数
         '''
         item = []
+        queryKeyword = self.format(q)
 
         '获取查询结果列表页html对象'
-        url = 'https://www.heydouga.com/moviepages/%s/index.html' % q
+        url = 'https://www.heydouga.com/moviepages/%s/index.html' % queryKeyword
         html_item = self.getHtmlByurl(url)
         if html_item['issuccess']:
             browserTools = BrowserTools()
             browser = browserTools.getBrowser()
 
-            media_item = self.analysisMediaHtmlByxpath(browser, q)
+            media_item = self.analysisMediaHtmlByxpath(browser, queryKeyword)
             if len(media_item) > 0:
                 item.append({'issuccess': True, 'data': media_item})
 
@@ -138,5 +139,6 @@ class HeydougaOfficial(UnsensoredSpider):
                 code[4], '/').replace(code[9], '-').replace(code[16], '_')
         else:
             pass
+        code = code.replace('heydouga-','')
 
         return code
