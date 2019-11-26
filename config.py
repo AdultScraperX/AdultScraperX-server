@@ -117,31 +117,36 @@ SOURCE_LIST = {
         },
         # Caribbean
         {
-            "pattern": r"Carib\D{1}\d{6}.\d{3}|Caribbean\D{1}\d{6}.\d{3}|Carib\d{6}.\d{3}|Caribbean\d{6}.\d{3}|\d{6}.\d{3}",
+            # "pattern": r"Carib\D{1}\d{6}.\d{3}|Caribbean\D{1}\d{6}.\d{3}|Carib\d{6}.\d{3}|Caribbean\d{6}.\d{3}|\d{6}.\d{3}",
+            "pattern": r"\d{6}.\d{3}",
             'formatter': CaribbeanFormatter,
             'webList': [Caribbean, Javr]
         },
         # Caribbeancompr
         {
-            "pattern": r"Carib\D{1}\d{6}.\d{3}|Caribbean\D{1}\d{6}.\d{3}|Carib\d{6}.\d{3}|Caribbean\d{6}.\d{3}|\d{6}.\d{3}",
+            # "pattern": r"Carib\D{1}\d{6}.\d{3}|Caribbean\D{1}\d{6}.\d{3}|Carib\d{6}.\d{3}|Caribbean\d{6}.\d{3}|\d{6}.\d{3}",
+            "pattern": r"\d{6}.\d{3}",
             'formatter': CaribbeancomprFormatter,
             'webList': [Caribbeancompr, Javr]
         },
         # Pacopacomama
         {
-            "pattern": r"Pacopacomama\D{1}\d{6}.\d{3}|Pacopa\D{1}\d{6}.\d{3}|pacopaco\D{1}\d{6}.\d{3}|pacomama\D{1}\d{6}.\d{3}|Pacopacomama\d{6}.\d{3}|Pacopa\d{6}.\d{3}|pacopaco\d{6}.\d{3}|pacomama\d{6}.\d{3}|\d{6}.\d{3}",
+            # "pattern": r"Pacopacomama\D{1}\d{6}.\d{3}|Pacopa\D{1}\d{6}.\d{3}|pacopaco\D{1}\d{6}.\d{3}|pacomama\D{1}\d{6}.\d{3}|Pacopacomama\d{6}.\d{3}|Pacopa\d{6}.\d{3}|pacopaco\d{6}.\d{3}|pacomama\d{6}.\d{3}|\d{6}.\d{3}",
+            "pattern": r"\d{6}.\d{3}",
             'formatter': OnePondoFormatter,
             'webList': [PacoPacoMama, Javr]
         },
         # 10musume
         {
-            "pattern": r"10musume\D{1}|10mus\D{1}\d{6}.\d{2}|10mu\D{1}\d{6}.\d{2}|10musume\d{6}.\d{2}|10mus\d{6}.\d{2}|10mu\d{6}.\d{2}|\d{6}.\d{2}",
+            # "pattern": r"10musume\D{1}|10mus\D{1}\d{6}.\d{2}|10mu\D{1}\d{6}.\d{2}|10musume\d{6}.\d{2}|10mus\d{6}.\d{2}|10mu\d{6}.\d{2}|\d{6}.\d{2}",
+            "pattern": r"\d{6}.\d{3}",
             'formatter': TenMusumeFormatter,
             'webList': [TenMusume, Javr]
         },
         # one_pondo
         {
-            "pattern": r"onepondo\D{1}\d{6}.\d{3}|Pondo\D{1}\d{6}.\d{3}|TokyoPondo\D{1}\d{6}.\d{3}|1ppondo\D{1}\d{6}.\d{3}|onepondo\d{6}.\d{3}|Pondo\d{6}.\d{3}|TokyoPondo\d{6}.\d{3}|1ppondo\d{6}.\d{3}|\d{6}.\d{3}",
+            # "pattern": r"onepondo\D{1}\d{6}.\d{3}|Pondo\D{1}\d{6}.\d{3}|TokyoPondo\D{1}\d{6}.\d{3}|1ppondo\D{1}\d{6}.\d{3}|onepondo\d{6}.\d{3}|Pondo\d{6}.\d{3}|TokyoPondo\d{6}.\d{3}|1ppondo\d{6}.\d{3}|\d{6}.\d{3}",
+            "pattern": r"\d{6}.\d{3}",
             'formatter': OnePondoFormatter,
             'webList': [OnePondo, Javr]
         }
