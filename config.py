@@ -86,7 +86,7 @@ SOURCE_LIST = {
         },
         # Heydouga for javr
         {
-            "pattern": r"[Heydouga|HEYDOUGA|heydouga].*\d+.*\d+[.*\d]{0,1}",
+            "pattern": r"(Heydouga|HEYDOUGA|heydouga).*\d+.*\d+[.*\d]{0,1}",
             'formatter': HeydougaFormatter,
             'webList': [Javr]
         },
@@ -99,19 +99,19 @@ SOURCE_LIST = {
 
         # Heyzo for javr
         {
-            "pattern": r"[Heyzo|HEYZO|heyzo].*\d{4}",
+            "pattern": r"(Heyzo|HEYZO|heyzo).*\d{4}",
             'formatter': HeyzoFormatter,
             'webList': [Javr]
         },
         # TokyoHot for javr
         {
-            "pattern": r"[tokyo|TOKYO].*[A-Za-z]+[\ -]?\d+",
+            "pattern": r"(tokyo|TOKYO|Tokyo).*[A-Za-z]+[\ -]?\d+",
             'formatter': TokyoHotFormatter,
             'webList': [Javr]
         },
         # FC2PPV for javr
         {
-            "pattern": r"[fc|Fc|FC].*\d{6}",
+            "pattern": r"(fc|Fc|FC).*\d{6}",
             'formatter': Fc2ppvFormater,
             'webList': [Javr]
         },
