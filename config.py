@@ -14,7 +14,7 @@ from app.formatter.tenMusumeFormatter import TenMusumeFormatter
 from app.formatter.data18Formatter import Data18Formatter
 from app.formatter.basicFormatter import BasicFormater
 from app.formatter.HeyzoOfficialFormatter import HeyzoOfficialFormatter
-from app.formatter.msgBloggFormatter import MGSBloggFormatter
+from app.formatter.mgstageFormatter import MGStageFormatter
 
 # 爬虫
 from app.spider.arzon import Arzon
@@ -30,7 +30,7 @@ from app.spider.tenMusume import TenMusume
 from app.spider.data18 import Data18
 from app.spider.heydougaOfficial import HeydougaOfficial
 from app.spider.HeyzoOfficial import HeyzoOfficial
-from app.spider.mgsBlogg import MGSBlogg
+from app.spider.mgstage import MGStage
 
 HOST = '0.0.0.0'
 PORT = 9999
@@ -68,11 +68,11 @@ SOURCE_LIST = {
             'formatter': CensoredFormatter,
             'webList': [Arzon, Javbus, Onejav]
         },
-        #  MGSBlogg 
+        #  mgstage
         {
-            "pattern": r"200GANA\D{1}[0-9]{4}|200GANA[0-9]{4}|259LUXU\D{1}[0-9]{4}|259LUXU[0-9]{4}|SIRO\D{1}[0-9]{4}|SIRO[0-9]{4}|300MIUM\D{1}[0-9]{3}|300MIUM[0-9]{3}|300MAAN\D{1}[0-9]{3}|300MAAN[0-9]{3}|261ARA\D{1}[0-9]{3}|261ARA[0-9]{3}|277DCV\D{1}[0-9]{3}|277DCV[0-9]{3}|230ORE\D{1}[0-9]{3}|230ORE[0-9]{3}|300NTK\D{1}[0-9]{3}|300NTK[0-9]{3}|336KNB\D{1}[0-9]{3}|336KNB[0-9]{3}|320MMGH\D{1}[0-9]{3}|320MMGH[0-9]{3}|332NAMA\D{1}[0-9]{3}|332NAMA[0-9]{3}|279UTSU\D{1}[0-9]{3}|279UTSU[0-9]{3}|345SIMM\D{1}[0-9]{3}|345SIMM[0-9]{3}|276KITAIKE\D{1}[0-9]{3}|276KITAIKE[0-9]{3}|326SCP\D{1}[0-9]{3}|326SCP[0-9]{3}|326SPOR\D{1}[0-9]{3}|326SPOR[0-9]{3}|348NTR\D{1}[0-9]{3}|348NTR[0-9]{3}|326URF\D{1}[0-9]{3}|326URF[0-9]{3}|274ETQT\D{1}[0-9]{3}|274ETQT[0-9]{3}|326EVA\D{1}[0-9]{3}|326EVA[0-9]{3}|409BZDC\D{1}[0-9]{3}|409BZDC[0-9]{3}",
-            'formatter': MGSBloggFormatter,
-            'webList': [MGSBlogg]
+            "pattern": r"[0-9]{3}[a-z]{3,4}\D{1}\d{3,4}|[0-9]{3}[a-z]{3,4}\d{3,4}|SIRO[0-9]{3,4}|SIRO\D{1}[0-9]{4}[0-9]{3}[a-z]{3,4}\D{1}\d{3,4}|[0-9]{3}[a-z]{3,4}\d{3,4}|SIRO[0-9]{3,4}|SIRO\D{1}[0-9]{3,4}",
+            'formatter': MGStageFormatter,
+            'webList': [MGStage]
         }
     ],
     # 无码搜刮
