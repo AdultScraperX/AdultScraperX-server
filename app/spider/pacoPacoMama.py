@@ -18,6 +18,10 @@ from app.spider.uncensored_spider import UnsensoredSpider
 
 class PacoPacoMama(UnsensoredSpider):
 
+    def __init__(self):
+        super().__init__()
+        self.checkUrl = 'https://www.pacopacomama.com'
+
     def search(self, q):
 
         '''

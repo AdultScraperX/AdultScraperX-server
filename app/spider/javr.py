@@ -6,6 +6,11 @@ from app.spider.uncensored_spider import UnsensoredSpider
 
 class Javr(UnsensoredSpider):
 
+    def __init__(self):
+        super().__init__()
+        self.checkUrl = 'https://javr.club/'
+
+
     def search(self, q):
 
         # 影片分片设置

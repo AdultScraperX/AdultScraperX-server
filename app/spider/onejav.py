@@ -16,6 +16,10 @@ from app.spider.basic_spider import BasicSpider
 
 class Onejav(BasicSpider):
 
+    def __init__(self):
+        super().__init__()
+        self.checkUrl = 'https://onejav.com//'
+
     def search(self, q):
         '''
         执行查询函数

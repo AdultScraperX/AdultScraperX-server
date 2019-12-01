@@ -18,6 +18,10 @@ class Caribbean(UnsensoredSpider):
 
     basicUrl = 'www.caribbeancom.com'
 
+    def __init__(self):
+        super().__init__()
+        self.checkUrl = 'www.caribbeancom.com'
+
     def search(self, q):
 
         '''

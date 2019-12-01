@@ -18,6 +18,7 @@ class BasicSpider:
         self.tools = Tools()
         self.configmanager = ConfigManager()
         self.client_session = requests.Session()
+        self.checkUrl = ''
         self.media = {
             'm_id': '',
             'm_number': '',
@@ -210,11 +211,11 @@ class BasicSpider:
         return item
 
     def getHtmlByurlheaders(self, url, headers):
-        '''
+        """
         获取html对象函数
         url：需要访问的地址<str>
         return:<dict{issuccess,ex,html}>
-        '''
+        """
         html = None
         item = {'issuccess': False, 'html': None, 'ex': None}
         try:
@@ -245,3 +246,14 @@ class BasicSpider:
     def getitemspage(self, html, xpaths):
         url = html.xpath(xpaths)
         return url
+
+    def checkServer(self):
+        """
+        检测站点是否在线
+        :return: 站点是否在线
+        """
+        html_item = self.getHtmlByurl(self.checkUrl)
+        if html_item['issuccess']:
+            return True
+        else:
+            return False

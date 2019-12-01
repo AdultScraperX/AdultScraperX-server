@@ -7,6 +7,10 @@ from app.spider.uncensored_spider import UnsensoredSpider
 
 class OnePondo(UnsensoredSpider):
 
+    def __init__(self):
+        super().__init__()
+        self.checkUrl = 'https://www.1pondo.tv/'
+
     def getName(self):
         return "1Pondo"
 

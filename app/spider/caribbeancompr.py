@@ -18,6 +18,10 @@ class Caribbeancompr(Caribbean):
 
     basicUrl = 'www.caribbeancompr.com'
 
+    def __init__(self):
+        super().__init__()
+        self.checkUrl = 'https://www.caribbeancompr.com/'
+
 
     def search(self, q):
 

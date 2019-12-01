@@ -8,6 +8,7 @@ import json
 import re
 import sys
 import app.internel.user_tools as userTools
+import app.internel.mongo_tools as mongoTools
 
 from flask import Flask, request
 from flask import render_template
@@ -76,12 +77,19 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
 
     logging.info(u'======开始请求======')
 
+    q = base64.b64decode(q.replace('[s]', '/')).decode("utf-8")
+    # 检查服务端状态
+    if q == '--checkState':
+        return checkState(token, FQDN, port)
+    # 检查搜刮器状态
+    if q == '--checkSpider':
+        return checkSpider()
+
     userIp = request.remote_addr
-    if not userTools.checkUser(token, userIp, FQDN, port):
+    if CONFIG.USER_CHECK is True and not userTools.checkUser(token, userIp, FQDN, port):
         logging.info(u'======请求结束======')
         return 'T-Error!'
 
-    q = base64.b64decode(q.replace('[s]', '/')).decode("utf-8")
     if requestType == "manual":
         logging.info(u'模式：手动')
         autoFlag = False
@@ -90,6 +98,7 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
         autoFlag = True
     else:
         return 'URL-Error!'
+
     logging.info(u'文件名：%s' % q)
     logging.info(u'目录标记：%s' % dirTagLine)
     cacheFlag = True
@@ -168,6 +177,82 @@ def search(webList, q, autoFlag, cacheFlag=False):
                 if autoFlag:
                     return result
     return result
+
+
+def checkState(token, FQDN, port):
+    resultDate = []
+    resultDate.append(setCheckState('1', '服务端版本' + str(CONFIG.SERVER_VERSION)))
+    # 数据库检测
+    resultDate.append(setCheckState('2', '数据库检测'))
+    try:
+        mongoTools.getConnection()
+        resultDate.append(setCheckState('2.1', '数据库链接创建成功'))
+        try:
+            mongoTools.getDatabase()
+            resultDate.append(setCheckState('2.2', '数据库登陆成功'))
+            try:
+                mongoTools.getCollection('meta_cache')
+                resultDate.append(setCheckState('2.3', '数据库用户权限设置正确'))
+            except Exception:
+                resultDate.append(setCheckState('2.1', '数据库用户权限设置不正确，请检查用户权限'))
+        except Exception:
+            resultDate.append(setCheckState('2.2', '数据库登陆失败，请检测用户名密码'))
+    except Exception:
+        resultDate.append(setCheckState('2.3', '数据库链接创建失败，请检查服务器是否启动及地址是否正确'))
+
+    # 用户检测
+    if CONFIG.USER_CHECK is True:
+        resultDate.append(setCheckState('3', '用户检测'))
+        if userTools.checkUser(token, request.remote_addr, FQDN, port):
+            resultDate.append(setCheckState('3.1', 'token:' + token + ', FQDN:' + FQDN + '用户为授权用户'))
+        else:
+            resultDate.append(setCheckState('3.1', 'token:' + token + ', FQDN:' + FQDN + '用户为非授权用户'))
+
+    result = {'issuccess': 'true', 'json_data': resultDate, 'ex': ''}
+    return json.dumps(result)
+
+
+def checkSpider():
+    resultDate = []
+    resultDate.append(setCheckState('日本有码', '搜刮器检测'))
+    checkSpiderConnection('censored', resultDate)
+    resultDate.append(setCheckState('日本无码', '搜刮器检测'))
+    checkSpiderConnection('uncensored', resultDate)
+    resultDate.append(setCheckState('动漫搜刮', '搜刮器检测'))
+    checkSpiderConnection('animation', resultDate)
+    resultDate.append(setCheckState('欧美搜刮', '搜刮器检测'))
+    checkSpiderConnection('europe', resultDate)
+
+    result = {'issuccess': 'true', 'json_data': resultDate, 'ex': ''}
+    return json.dumps(result)
+
+
+def checkSpiderConnection(type, resultDate):
+    for spiderType in CONFIG.SOURCE_LIST[type]:
+        for spider in spiderType['webList']:
+            spiderObj = spider()
+            resultDate.append(setCheckState(spiderType['name']+':'+ spiderObj.getName(), '可连接' if spiderObj.checkServer() else '不可连接'))
+
+
+def setCheckState(number, title):
+    return {
+        '': {
+            'm_id': '',
+            'm_number': number,
+            'm_title': title,
+            'm_poster': '',
+            'm_art_url': '',
+            'm_summary': 'CheckState',
+            'm_studio': 'CheckState',
+            'm_directors': 'CheckState',
+            'm_collections': 'CheckState',
+            'm_year': '',
+            'm_originallyAvailableAt': '',
+            'm_category': 'CheckState',
+            "m_actor": ''
+        }
+
+    }
 
 
 if __name__ == "__main__":

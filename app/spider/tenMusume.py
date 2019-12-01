@@ -19,6 +19,10 @@ from PIL import Image
 
 class TenMusume(UnsensoredSpider):
 
+    def __init__(self):
+        super().__init__()
+        self.checkUrl = 'https://www.10musume.com/'
+
     def getName(self):
         return "10Musume"
 

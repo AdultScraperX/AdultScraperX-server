@@ -9,6 +9,11 @@ from app.internel.tools import Tools
 
 class MGStage(UnsensoredSpider):
 
+    def __init__(self):
+        super().__init__()
+        self.checkUrl = 'https://www.mgstage.com//'
+
+
     def search(self, q):
         '''
         执行查询函数

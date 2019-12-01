@@ -15,6 +15,11 @@ else:
 
 class HeyzoOfficial(UnsensoredSpider):
 
+    def __init__(self):
+        super().__init__()
+        self.checkUrl = 'https://www.heyzo.com/'
+
+
     def search(self, q):
         '''
         执行查询函数

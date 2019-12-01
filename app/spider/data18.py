@@ -15,6 +15,11 @@ else:
 
 class Data18(BasicSpider):
 
+    def __init__(self):
+        super().__init__()
+        self.checkUrl = 'https://data18.empirestores.co'
+
+
     def search(self, q):
         '''
         执行查询函数
