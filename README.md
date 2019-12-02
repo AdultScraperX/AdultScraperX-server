@@ -15,7 +15,7 @@ MONGODB_PWD = 'adultscraperx'
 推荐使用我们提供的数据库，本程序使用mongoDB 对每次搜刮结果进行缓存，经过长时间的应用，数据库中已缓存了大量搜刮结果，使用我们提供的数据库可直接使用该缓存加快匹配速度，并避免因为访问量过大被反扒机制屏蔽，如果有能力自行架设数据库也欢迎自行架设
 2. 用户认证设置
 `USER_CHECK = True`
-默认开启用户认证，只有携带正确 Token 并且 FQDN 正确的用户可以访问服务器，设置为 False 以关闭此功能
+默认开启用户认证，只有携带正确 Token 并且 FQDN 正确的用户可以访问服务器，设置为 False 以关闭此功能  
 \* 使用官方数据库请将此选项设置为False
 ## 部署说明
  以 Linux CentOS 为例 windows及其他平台请自行查找安装教程
@@ -59,7 +59,7 @@ db.createCollection("user");
 # 接口说明及新刮刀添加说明
 ## 插件与server通信接口说明
 plex 影片搜刮分为自动搜刮和手动匹配，这两种方式的匹配都将由main.py中的 getMediaInfos 方法响应，该方法与plex通信的json格式如下
-```json
+```
 {
     'ex':'', // 异常信息
     'issuccess':'true', //返回数据状态 true or false
