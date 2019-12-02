@@ -13,7 +13,6 @@ class MGStage(UnsensoredSpider):
         super().__init__()
         self.checkUrl = 'https://www.mgstage.com//'
 
-
     def search(self, q):
         '''
         执行查询函数
@@ -34,6 +33,7 @@ class MGStage(UnsensoredSpider):
 
             items_href_xpath = "//div[@class='rank_list']/ul/li/h5/a"
             items_list = browser.find_elements_by_xpath(items_href_xpath)
+            media_item = None
             for item in items_list:
                 item.click()
                 media_item = self.analysisMediaHtmlByxpath(browser, q)
@@ -41,9 +41,9 @@ class MGStage(UnsensoredSpider):
             logging.info('结束模拟')
             logging.info('关闭 browser 模拟')
             browserTools.closeBrowser()
-
-            if len(media_item) > 0:
-                results.append({'issuccess': True, 'data': media_item})
+            if not media_item == None:
+                if len(media_item) > 0:
+                    results.append({'issuccess': True, 'data': media_item})
 
             return results
 
@@ -65,7 +65,7 @@ class MGStage(UnsensoredSpider):
             if len(tmp) > 1:
                 keyword = self.tools.cleanstr(tmp[0])
                 value = tmp[1]
-                if keyword == '出演': # actor
+                if keyword == '出演':  # actor
                     actor = {}
                     actor_name = []
                     actor_name.append(self.tools.cleanstr(value))
@@ -82,7 +82,8 @@ class MGStage(UnsensoredSpider):
                     media.update({'m_number': self.tools.cleanstr(value)})
 
                 if keyword == '配信開始日':  # 日期
-                    media.update({'m_year': self.tools.formatdatetime(self.tools.cleanstr(value))})
+                    media.update(
+                        {'m_year': self.tools.formatdatetime(self.tools.cleanstr(value))})
                     media.update(
                         {'m_originallyAvailableAt': self.tools.formatdatetime(self.tools.cleanstr(value))})
 
@@ -95,7 +96,7 @@ class MGStage(UnsensoredSpider):
                     categorys = value.split(' ')
                     while '' in categorys:
                         categorys.remove('')
-                        
+
                     categorys_list = []
                     for item in categorys:
                         categorys_list.append(self.tools.cleanstr(item))
