@@ -18,7 +18,7 @@ class BasicSpider:
         self.tools = Tools()
         self.configmanager = ConfigManager()
         self.client_session = requests.Session()
-        self.checkUrl = ''
+        self.checkUrl = ''  # 服务状态检查Url 子类必须为此变量赋值
         self.media = {
             'm_id': '',
             'm_number': '',

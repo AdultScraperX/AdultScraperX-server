@@ -69,9 +69,46 @@ def addUser(adminToken, username):
 
 @app.route('/<requestType>/<dirTagLine>/<q>/<token>/<FQDN>/<port>')
 def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
-    '''
-    自动查询：返回最先成功的item
-    '''
+    """
+    根据搜刮网站列表进行数据搜刮
+    :param cacheFlag: 使用缓存标识
+    :param webList: 搜刮网站的List 类型应为 app.spider.BasicSpider 的子类
+    :param q: 待匹配的文件名
+    :param autoFlag: 自动表示 True 为开启，开启后仅返回搜索到的第一个结果 ，False 为关闭
+    :return:
+        未查询到example
+        {
+            'issuccess': 'false',
+            'json_data': [],
+            'ex': ''
+        }
+        查询到
+        {
+            'ex':'', // 异常信息
+            'issuccess':'true', //返回数据状态 true or false
+            'json_data': [ // 数据集(可包含有多个站点的数据)
+                {
+                'sitName': { //站点名称
+                    'm_actor': { // 演员集
+                            '': '' // 名称：url 路径 需包含http或https头
+                    },
+                    'm_art_url':'', // plex背景图
+                    'm_category':'', // 类型 多个以 , 分开
+                    'm_collections':'', // 系列 多个以 , 分开
+                    'm_directors':'', //导演 多个以 , 分开
+                    'm_id':'', // 影片id（不需要填写）
+                    'm_number':'', // 番号,此项为必填项
+                    'm_originallyAvailableAt':'', // 上映日期 yyyy-MM-dd
+                    'm_poster':'', //海报url  需包含 http或https头
+                    'm_studio':'', // 工作室,出品方 多个以 , 分开
+                    'm_summary':'', // 概述
+                    'm_title':'', //标题,此项为必填项
+                    'm_year':'' //年份 yyyy-MM-dd
+                    }
+                }
+            ]
+        }
+    """
     if token == '':
         return 'T-Error!'
 
@@ -135,27 +172,6 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
 
 
 def search(webList, q, autoFlag, cacheFlag=False):
-    """
-    根据搜刮网站列表进行数据搜刮
-    :param cacheFlag: 使用缓存标识
-    :param webList: 搜刮网站的List 类型应为 app.spider.BasicSpider 的子类
-    :param q: 待匹配的文件名
-    :param autoFlag: 自动表示 True 为开启，开启后仅返回搜索到的第一个结果 ，False 为关闭
-    :return:
-        未查询到example
-        {
-            'issuccess': 'false',
-            'json_data': [],
-            'ex': ''
-        }
-        查询到
-        {
-        'issuccess': 'true',
-        'json_data': [some json data],
-        'ex': ''
-        }
-    """
-
     logging.info("格式化后的查询关键字：%s" % q)
     result = {
         'issuccess': 'false',
