@@ -48,8 +48,8 @@ CacheTag = '--noCache'
 #管理员TOKEN
 SERVE_ADMIN_TOKEN = 'theBestAVScraper'
 
-MONGODB_HOST = 'mineserver.top'
-MONGODB_PORT = 50000
+MONGODB_HOST = 'adultscraperx-mongo-db'
+MONGODB_PORT = 27017
 MONGODB_DBNAME = 'adultscraperx'
 MONGODB_USER = 'adultscraperx'
 MONGODB_PWD = 'adultscraperx'
