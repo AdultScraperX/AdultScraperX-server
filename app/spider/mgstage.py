@@ -26,6 +26,7 @@ class MGStage(UnsensoredSpider):
 
             url = 'https://www.mgstage.com/search/search.php?search_word=%s&page=1&sort=popular&list_cnt=120&disp_type=detail' % q
             browser.get(url)
+            time.sleep(2)
             btn_xpath = "//a[@id='AC']"  # 18确认
             btn = browser.find_elements_by_xpath(btn_xpath)
             if len(btn) > 0:
@@ -37,7 +38,7 @@ class MGStage(UnsensoredSpider):
             for item in items_list:
                 item.click()
                 media_item = self.analysisMediaHtmlByxpath(browser, q)
-
+            logging.info('解析结果：%s' % media_item)
             logging.info('结束模拟')
             logging.info('关闭 browser 模拟')
             browserTools.closeBrowser()
