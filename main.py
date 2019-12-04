@@ -14,6 +14,8 @@ from flask import Flask, request
 from flask import render_template
 from flask import send_file
 
+import spider_config
+
 if sys.version.find('2', 0, 1) == 0:
     try:
         from cStringIO import StringIO
@@ -41,8 +43,8 @@ def warning():
 def img(data):
     data = json.loads(base64.b64decode(data))
     image = None
-    for sourceList in CONFIG.SOURCE_LIST:
-        for sourceItem in CONFIG.SOURCE_LIST[sourceList]:
+    for sourceList in spider_config.SOURCE_LIST:
+        for sourceItem in spider_config.SOURCE_LIST[sourceList]:
             for spiderClass in sourceItem["webList"]:
                 spider = spiderClass()
                 if spider.getName().lower() == data['webkey'].lower():
@@ -143,8 +145,8 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
         logging.info(u'手动强制输入命令%s跳过使用缓存库' % CONFIG.CacheTag)
         cacheFlag = False
         q = q.replace(CONFIG.CacheTag, '')
-    if dirTagLine != "" or not CONFIG.SOURCE_LIST[dirTagLine]:
-        for template in CONFIG.SOURCE_LIST[dirTagLine]:
+    if dirTagLine != "" or not spider_config.SOURCE_LIST[dirTagLine]:
+        for template in spider_config.SOURCE_LIST[dirTagLine]:
             # 循环模板列表
             codeList = []
             re_list = re.finditer(template['pattern'], q, re.IGNORECASE)
@@ -244,7 +246,7 @@ def checkSpider():
 
 
 def checkSpiderConnection(type, resultDate):
-    for spiderType in CONFIG.SOURCE_LIST[type]:
+    for spiderType in spider_config.SOURCE_LIST[type]:
         for spider in spiderType['webList']:
             spiderObj = spider()
             resultDate.append(setCheckState(spiderType['name']+':'+ spiderObj.getName(), '可连接' if spiderObj.checkServer() else '不可连接'))
