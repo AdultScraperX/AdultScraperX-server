@@ -40,7 +40,7 @@ DEBUG = False
 SERVER_VERSION = 1.0
 
 # 是否开启用户认证
-USER_CHECK = True
+USER_CHECK = False
 
 #设置缓存标志
 CacheTag = '--noCache'
