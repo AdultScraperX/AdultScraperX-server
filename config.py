@@ -31,7 +31,7 @@ IMG_W = 800
 IMG_H = 538
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s',
-                    filename='AdultScraperX-server.log',
-                    filemode='a',
+                    #filename='AdultScraperX-server.log',
+                    #filemode='a',
                     level=logging.INFO)
 
