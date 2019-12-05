@@ -27,7 +27,7 @@ MONGODB_PWD = 'adultscraperx'
 
 REMOTE_WEB = True
 
-WEB_DRIVE_URL = '127.0.0.1'
+WEB_DRIVE_URL = 'selenium'
 WEB_DRIVE_PORT = '4444'
 
 #图片处理默认值
