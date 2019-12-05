@@ -25,6 +25,11 @@ MONGODB_DBNAME = 'adultscraperx'
 MONGODB_USER = 'adultscraperx'
 MONGODB_PWD = 'adultscraperx'
 
+REMOTE_WEB = True
+
+WEB_DRIVE_URL = 'selenium'
+WEB_DRIVE_PORT = 4444
+
 #图片处理默认值
 IMG_R = 373
 IMG_W = 800
