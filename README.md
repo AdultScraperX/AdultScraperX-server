@@ -119,9 +119,9 @@ plex 影片搜刮分为自动搜刮和手动匹配，这两种方式的匹配都
 3. 参考类
 请参考 formatter 目录下的任何类
 
-#### 向config添加一个新的刮刀
+#### 向spider_config.py添加一个新的刮刀
 - 这里负责的工作是将创建好的 formatter、spider类引用，使其能够正常被调用工作。
-- 刮刀信息存储在config.py SOURCE_LIST中，并以日本无码，日本有码，欧美，动漫，进行了分类
+- 刮刀信息存储在spider_config.py SOURCE_LIST中，并以日本无码，日本有码，欧美，动漫，进行了分类
 - 格式说明
 ```
 {
@@ -131,8 +131,11 @@ plex 影片搜刮分为自动搜刮和手动匹配，这两种方式的匹配都
     'webList': [TenMusume, Javr] #搜刮器，可以为多个
 }
 ```
-1. config.py位于 根目录下
-2. 追加config.py的内容
+1. spider_config.py位于 根目录下
+2. 追加spider_config.py的内容
 3. 先要from import 你的新formatter、spider类
 4. 在SOURCE_LIST内对应追加操作
 5. 添加搜刮器时按照对应的分类添加到对应的列表中
+
+#### 系统配置 config.py 
+- config.py存放着一些有关于全局的配置变量,在为运行时你可以修改他,一旦运行将不可改变。
