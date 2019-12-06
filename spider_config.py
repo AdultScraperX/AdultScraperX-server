@@ -33,7 +33,7 @@ SOURCE_LIST = {
         # 常规有码影片搜刮
         {
             "name": '常规有码影片搜刮',
-            "pattern": r"\w+[a-z]{2,5}\D{1}\d{1,3}|[a-z]{2,5}\d{1,3}",
+            "pattern": r"\w+[a-z]{2,5}\D{1}\d{1,5}|[a-z]{2,5}\d{1,5}",
             'formatter': CensoredFormatter,
             'webList': [Arzon, Javbus, Onejav]
         },
@@ -133,7 +133,7 @@ SOURCE_LIST = {
     'animation': [
         {
             "name": '动漫搜刮',
-            'pattern': r'[a-z]{1,5}\D{1}[0-9]{1,5}|[a-z]{1,5}[0-9]{1,5}|.+',
+            'pattern': r'[a-z]{1,5}\D{1}[0-9]{1,5}|[a-z]{1,5}[0-9]{1,5}',
             'formatter': ReMediaMatterFormatter,
             'webList': [ArzonAnime]
         }

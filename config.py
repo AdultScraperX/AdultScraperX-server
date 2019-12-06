@@ -16,11 +16,15 @@ USER_CHECK = False
 #设置缓存标志
 CacheTag = '--noCache'
 
+# 手动匹配时不使用正则过滤关键字
+NotUseRe = '--notre'
+
+
 #管理员TOKEN
 SERVE_ADMIN_TOKEN = 'theBestAVScraper'
 
-MONGODB_HOST = 'adultscraperx-mongo-db'
-MONGODB_PORT = 27017
+MONGODB_HOST = 'mineserver.top'
+MONGODB_PORT = 50000
 MONGODB_DBNAME = 'adultscraperx'
 MONGODB_USER = 'adultscraperx'
 MONGODB_PWD = 'adultscraperx'
