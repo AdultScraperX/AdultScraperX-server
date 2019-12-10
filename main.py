@@ -9,6 +9,7 @@ import sys
 import app.internel.user_tools as userTools
 import app.internel.mongo_tools as mongoTools
 import config.spider_config as spider_config
+import config.config as config
 
 from flask import Flask, request
 from flask import render_template
