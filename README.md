@@ -2,22 +2,26 @@
 Plex 成人影片搜刮器AdultScraperX的服务端
 # 部署及配置部分
 ## 服务端配置说明
-服务端配置文件为 `config.py`    
+服务端配置文件为 `app/confog/config.py`    
 
 1. 配置数据库  
 ```
-MONGODB_HOST = 'mineserver.top'
-MONGODB_PORT = 50000
+MONGODB_HOST = 'mongohost'
+MONGODB_PORT = 27017
 MONGODB_DBNAME = 'adultscraperx'
 MONGODB_USER = 'adultscraperx'
 MONGODB_PWD = 'adultscraperx'
-```  
-推荐使用官方提供的数据库，本程序使用mongoDB 对每次搜刮结果进行缓存，经过长时间的应用，数据库中已缓存了大量搜刮结果，使用官方提供的数据库可直接使用该缓存加快匹配速度，并避免因为访问量过大被反扒机制屏蔽，如果有能力自行架设数据库也欢迎自行架设  
+```
 
 2. 用户认证设置  
-`USER_CHECK = True`  
-默认开启用户认证，只有携带正确 Token 并且 FQDN 正确的用户可以访问服务器，设置为 False 以关闭此功能  
-\* 使用官方数据库请将此选项设置为False
+`USER_CHECK = False`  
+默认关闭用户认证，开启用户认证后只有携带正确 Token 并且 FQDN 正确的用户可以访问服务器，建议服务端和插件通过公网链接的用户开启此选项
+
+3. 选择浏览器驱动，支持 ‘firefox’ 和 ‘chrome’  
+```
+BROWSER_DRIVE = 'chrome'
+```
+
 ## 部署说明
  以 Linux CentOS 为例 windows及其他平台请自行查找安装教程
 ### clone 项目
