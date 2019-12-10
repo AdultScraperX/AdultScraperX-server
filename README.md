@@ -4,6 +4,8 @@ Plex 成人影片搜刮器AdultScraperX的服务端
 ## 服务端配置说明
 服务端配置文件为 `app/confog/config.py`    
 
+## 推荐使用docker部署本项目详情请参考  https://github.com/chunsiyang/AdultScraperX-server-docker  
+## 独立部署项目
 1. 配置数据库  
 ```
 MONGODB_HOST = 'mongohost'
