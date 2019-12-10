@@ -5,7 +5,6 @@ from lxml import etree  # Xpath包
 from PIL import Image
 
 from app.internel.config import ConfigManager
-import config as CONFIG
 import requests
 import app.internel.cache_tools as cacheTools
 
@@ -137,9 +136,9 @@ class BasicSpider:
     def pictureProcessing(self, data):
         mode = data['mode']
         url = data['url']
-        r = CONFIG.IMG_R
-        w = CONFIG.IMG_W
-        h = CONFIG.IMG_H
+        r = config.IMG_R
+        w = config.IMG_W
+        h = config.IMG_H
         webkey = data['webkey']
         cropped = None
         # 开始剪切

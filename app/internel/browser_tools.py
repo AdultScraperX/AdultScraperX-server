@@ -1,5 +1,4 @@
 from selenium import webdriver
-import config as CONFIG
 
 
 class BrowserTools:
@@ -8,12 +7,12 @@ class BrowserTools:
 
     def getBrowser(self):
 
-        if CONFIG.BROWSER_DRIVE is 'firefox':
+        if config.BROWSER_DRIVE is 'firefox':
             from selenium.webdriver.firefox.options import Options
             firefox_opt = Options()
             firefox_opt.headless = True
             self.browser = webdriver.Firefox(options=firefox_opt)
-        if CONFIG.BROWSER_DRIVE is 'chrome':
+        if config.BROWSER_DRIVE is 'chrome':
             chrome_options = webdriver.ChromeOptions()
             chrome_options.add_argument('--no-sandbox')
             chrome_options.add_argument('--headless')

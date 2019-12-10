@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 import logging
 
-import config as CONFIG
 import base64
 import json
 import re
@@ -14,7 +13,7 @@ from flask import Flask, request
 from flask import render_template
 from flask import send_file
 
-import spider_config
+from config import spider_config
 
 if sys.version.find('2', 0, 1) == 0:
     try:
@@ -64,7 +63,7 @@ def img(data):
 
 @app.route('/addUser/<adminToken>/<username>')
 def addUser(adminToken, username):
-    if adminToken == CONFIG.SERVE_ADMIN_TOKEN:
+    if adminToken == config.SERVE_ADMIN_TOKEN:
         return json.dumps({'issuccess': 'true', 'token': userTools.addNewUser(username), 'ex': ''})
     return json.dumps({'issuccess': 'false', 'token': '', 'ex': '未授权访问'})
 
@@ -125,7 +124,7 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
         return checkSpider()
 
     userIp = request.remote_addr
-    if CONFIG.USER_CHECK is True and not userTools.checkUser(token, userIp, FQDN, port):
+    if config.USER_CHECK is True and not userTools.checkUser(token, userIp, FQDN, port):
         logging.info(u'======请求结束======')
         return 'T-Error!'
 
@@ -141,10 +140,10 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
     logging.info(u'文件名：%s' % q)
     logging.info(u'目录标记：%s' % dirTagLine)
     cacheFlag = True
-    if q.find(CONFIG.CacheTag) > -1:  # 判断是否跳过缓存数据库
-        logging.info(u'手动强制输入命令%s跳过使用缓存库' % CONFIG.CacheTag)
+    if q.find(config.CacheTag) > -1:  # 判断是否跳过缓存数据库
+        logging.info(u'手动强制输入命令%s跳过使用缓存库' % config.CacheTag)
         cacheFlag = False
-        q = q.replace(CONFIG.CacheTag, '')
+        q = q.replace(config.CacheTag, '')
     if dirTagLine != "" or not spider_config.SOURCE_LIST[dirTagLine]:
         for template in spider_config.SOURCE_LIST[dirTagLine]:
             # 循环模板列表
@@ -199,7 +198,7 @@ def search(webList, q, autoFlag, cacheFlag=False):
 
 def checkState(token, FQDN, port):
     resultDate = []
-    resultDate.append(setCheckState('1', '服务端版本' + str(CONFIG.SERVER_VERSION)))
+    resultDate.append(setCheckState('1', '服务端版本' + str(config.SERVER_VERSION)))
     # 数据库检测
     resultDate.append(setCheckState('2', '数据库检测'))
     try:
@@ -219,7 +218,7 @@ def checkState(token, FQDN, port):
         resultDate.append(setCheckState('2.3', '数据库链接创建失败，请检查服务器是否启动及地址是否正确'))
 
     # 用户检测
-    if CONFIG.USER_CHECK is True:
+    if config.USER_CHECK is True:
         resultDate.append(setCheckState('3', '用户检测'))
         if userTools.checkUser(token, request.remote_addr, FQDN, port):
             resultDate.append(setCheckState('3.1', 'token:' + token + ', FQDN:' + FQDN + '用户为授权用户'))
@@ -275,7 +274,7 @@ def setCheckState(number, title):
 
 if __name__ == "__main__":
     app.run(
-        host=CONFIG.HOST,
-        port=CONFIG.PORT,
-        debug=CONFIG.DEBUG
+        host=config.HOST,
+        port=config.PORT,
+        debug=config.DEBUG
     )
