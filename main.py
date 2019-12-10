@@ -148,17 +148,30 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
         for template in spider_config.SOURCE_LIST[dirTagLine]:
             # 循环模板列表
             codeList = []
-            re_list = re.finditer(template['pattern'], q, re.IGNORECASE)
+            notre = False
+            if q.find(CONFIG.NotUseRe) > -1:
+                q = q.replace(CONFIG.NotUseRe, '')
+                notre = True
+                re_list = re.finditer(r'.+', q, re.IGNORECASE)
+            else:
+                re_list = re.finditer(template['pattern'], q, re.IGNORECASE)
+
             for item in re_list:
                 codeList.append(item.group())
             if len(codeList) == 0:
                 continue
             # 对正则匹配结果进行搜索
             for code in codeList:
-                items = search(template['webList'],
-                               template['formatter'].format(code),
-                               autoFlag,
-                               cacheFlag)
+
+                if notre:
+                    items = search(template['webList'],
+                                   code, autoFlag, cacheFlag)
+                else:
+                    items = search(template['webList'],
+                                   template['formatter'].format(code),
+                                   autoFlag,
+                                   cacheFlag)
+
                 if items.get("issuccess") == "true":
                     logging.info("匹配数据结果：success")
                     logging.info(u'======结束请求======')
@@ -221,9 +234,11 @@ def checkState(token, FQDN, port):
     if config.USER_CHECK is True:
         resultDate.append(setCheckState('3', '用户检测'))
         if userTools.checkUser(token, request.remote_addr, FQDN, port):
-            resultDate.append(setCheckState('3.1', 'token:' + token + ', FQDN:' + FQDN + '用户为授权用户'))
+            resultDate.append(setCheckState(
+                '3.1', 'token:' + token + ', FQDN:' + FQDN + '用户为授权用户'))
         else:
-            resultDate.append(setCheckState('3.1', 'token:' + token + ', FQDN:' + FQDN + '用户为非授权用户'))
+            resultDate.append(setCheckState(
+                '3.1', 'token:' + token + ', FQDN:' + FQDN + '用户为非授权用户'))
 
     result = {'issuccess': 'true', 'json_data': resultDate, 'ex': ''}
     return json.dumps(result)
@@ -248,7 +263,8 @@ def checkSpiderConnection(type, resultDate):
     for spiderType in spider_config.SOURCE_LIST[type]:
         for spider in spiderType['webList']:
             spiderObj = spider()
-            resultDate.append(setCheckState(spiderType['name']+':'+ spiderObj.getName(), '可连接' if spiderObj.checkServer() else '不可连接'))
+            resultDate.append(setCheckState(
+                spiderType['name']+':' + spiderObj.getName(), '可连接' if spiderObj.checkServer() else '不可连接'))
 
 
 def setCheckState(number, title):

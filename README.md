@@ -55,6 +55,8 @@ mv geckodriver-v0.26.0/geckodriver /usr/bin
 `python3 ./main.py`
 
 ### 对于自行建立数据库的用户请使用如下建库脚本
+- 请自行安装MongoDB4,并创建数据库用户及密码
+- 下列只给出如何创建数据库
 ```
 db.getCollection("meta_cache").drop();
 db.createCollection("meta_cache");

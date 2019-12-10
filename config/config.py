@@ -1,5 +1,4 @@
 import logging
-
 # 格式化
 
 # 爬虫
@@ -14,10 +13,14 @@ SERVER_VERSION = 1.0
 # 是否开启用户认证
 USER_CHECK = False
 
-# 设置缓存标志
+#设置缓存标志
 CacheTag = '--noCache'
 
-# 管理员TOKEN
+# 手动匹配时不使用正则过滤关键字
+NotUseRe = '--notre'
+
+
+#管理员TOKEN
 SERVE_ADMIN_TOKEN = 'theBestAVScraper'
 
 MONGODB_HOST = 'adultscraperx-mongo-db'
@@ -35,6 +38,7 @@ IMG_W = 800
 IMG_H = 538
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s: %(message)s',
-                    # filename='AdultScraperX-server.log',
-                    # filemode='a',
+                    #filename='AdultScraperX-server.log',
+                    #filemode='a',
                     level=logging.INFO)
+
