@@ -17,8 +17,10 @@ MONGODB_PWD = 'adultscraperx'
 `USER_CHECK = False`  
 默认关闭用户认证，开启用户认证后只有携带正确 Token 并且 FQDN 正确的用户可以访问服务器，建议服务端和插件通过公网链接的用户开启此选项
 
-3. 选择浏览器驱动，支持 ‘firefox’ 和 ‘chrome’
+3. 选择浏览器驱动，支持 ‘firefox’ 和 ‘chrome’  
+```
 BROWSER_DRIVE = 'chrome'
+```
 
 ## 部署说明
  以 Linux CentOS 为例 windows及其他平台请自行查找安装教程
