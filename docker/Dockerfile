@@ -26,6 +26,6 @@ WORKDIR  /home/adultScraperX
 RUN cd /home/adultScraperX \
     && git clone https://github.com/chunsiyang/AdultScraperX-server.git
 USER adultScraperX
-CMD python3 AdultScraperX-server/main.py
+CMD python3 AdultScraperX-server/app/main.py
 
 
