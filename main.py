@@ -8,12 +8,12 @@ import re
 import sys
 import app.internel.user_tools as userTools
 import app.internel.mongo_tools as mongoTools
+import config.spider_config as spider_config
 
 from flask import Flask, request
 from flask import render_template
 from flask import send_file
 
-from config import spider_config
 
 if sys.version.find('2', 0, 1) == 0:
     try:
