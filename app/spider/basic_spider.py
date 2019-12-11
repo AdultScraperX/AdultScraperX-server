@@ -9,6 +9,7 @@ import requests
 import app.internel.cache_tools as cacheTools
 
 from app.internel.tools import Tools
+import config.config as config
 
 
 class BasicSpider:

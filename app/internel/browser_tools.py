@@ -1,5 +1,5 @@
 from selenium import webdriver
-
+import config.config as config
 
 class BrowserTools:
     browser = None

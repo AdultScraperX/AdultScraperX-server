@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 import pymongo
+import config.config as config
 
 connection = None
 database = None

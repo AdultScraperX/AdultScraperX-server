@@ -150,8 +150,8 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
             # 循环模板列表
             codeList = []
             notre = False
-            if q.find(CONFIG.NotUseRe) > -1:
-                q = q.replace(CONFIG.NotUseRe, '')
+            if q.find(config.NotUseRe) > -1:
+                q = q.replace(config.NotUseRe, '')
                 notre = True
                 re_list = re.finditer(r'.+', q, re.IGNORECASE)
             else:
