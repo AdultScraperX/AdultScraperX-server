@@ -1,10 +1,19 @@
 # AdultScraperX-server 服务端
-Plex 成人影片搜刮器AdultScraperX的服务端
+
+这是一个可以匹配成人影片信息的插件服务端（不提供任何影片下载与观看连接），仅提供简介，演员，标题，类型，系列，导演，工作室的信息匹配。
+
+### QQ群：721786707
+
 # 部署及配置部分
 ## 服务端配置说明
-服务端配置文件为 `app/confog/config.py`    
+- 服务端配置文件为 `app/confog/config.py`    
 
-## 推荐使用docker部署本项目详情请参考  https://github.com/chunsiyang/AdultScraperX-server-docker  
+## 插件地址 
+- https://github.com/chunsiyang/AdultScraperX.bundle
+
+## 推荐使用docker部署本项目详情请参考  
+- https://github.com/chunsiyang/AdultScraperX-server-docker  
+
 ## 独立部署项目
 1. 配置数据库  
 ```
@@ -32,15 +41,21 @@ git clone https://github.com/chunsiyang/AdultScraperX-server.git
 cd AdultScraperX-server
 ```
 ### 安装python
-`yum install python37`
+```
+yum install -y python37
+yum install -y epel-release
+yum install -y python3-pip
+yum install -y git
+```
 ### pip安装类包
 ```linux
-pip install image
-pip install lxml
-pip install requests
-pip install pymongo
-pip install selenium
-pip install flask
+pip3 install image 
+pip3 install pillow
+pip3 install lxml 
+pip3 install requests
+pip3 install pymongo 
+pip3 install selenium
+pip3 install flask 
 ```
 
 ### 安装firfox浏览器及驱动
