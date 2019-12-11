@@ -1,5 +1,6 @@
 # AdultScraperX-server 服务端
 Plex 成人影片搜刮器AdultScraperX的服务端
+### QQ群：721786707
 # 部署及配置部分
 ## 服务端配置说明
 服务端配置文件为 `app/confog/config.py`    
