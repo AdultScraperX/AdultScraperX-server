@@ -26,6 +26,6 @@ RUN useradd -ms /bin/bash adultScraperX
 WORKDIR  /home/adultScraperX
 RUN cd /home/adultScraperX \
     && git clone --depth=1 https://github.com/chunsiyang/AdultScraperX-server.git AdultScraperX-server/ \
-    && mv docker/thin/config.py config/config.py
+    && mv AdultScraperX-server/docker/thin/config.py AdultScraperX-server/config/config.py
 USER adultScraperX
 CMD python3 AdultScraperX-server/main.py
