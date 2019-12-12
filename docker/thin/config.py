@@ -34,7 +34,7 @@ MONGODB_USER = 'adultscraperx'
 MONGODB_PWD = 'adultscraperx'
 
 # 设置浏览器驱动
-BROWSER_DRIVE = 'firefox'
+BROWSER_DRIVE = 'chrome'
 
 # 图片处理默认值
 IMG_R = 373
