@@ -17,6 +17,7 @@ RUN pip install --upgrade pip \
     && pip install selenium \
     && pip install lxml \
     && pip install image \
+    && pip3 install pillow \ 
     && pip install requests \
     && pip install pymongo \
     && pip install flask
