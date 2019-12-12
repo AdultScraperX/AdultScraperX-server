@@ -17,7 +17,7 @@
 ## 推荐使用docker部署本项目详情请参考  
 - https://github.com/chunsiyang/AdultScraperX-server-docker  
 
-## 独立部署项目（不推荐，许自行提供数据库）
+## 独立部署项目（不推荐，需要自行提供MongoDB4数据库）
 1. 配置数据库  
 ```
 MONGODB_HOST = 'mongohost'
@@ -74,7 +74,7 @@ mv geckodriver-v0.26.0/geckodriver /usr/bin
 ### 运行
 `python3 ./main.py`
 
-### 对于自行建立数据库的用户请使用如下建库脚本
+### 对于自行建立MongoDB4数据库的用户请使用如下建库脚本
 - 请自行安装MongoDB4,并创建数据库用户及密码
 - 下列只给出如何创建数据库
 ```
