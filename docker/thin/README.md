@@ -1,3 +1,4 @@
+# 此项目需要国际网络环境请自行解决！
 ## TG群：https://t.me/AdultScraperX
 
 ## Docker for Synology 
