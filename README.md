@@ -4,7 +4,6 @@
 
 ### TG群：https://t.me/AdultScraperX
 
-
 # 部署及配置部分
 ## 服务端配置说明
 - 服务端配置文件为 `app/confog/config.py`    
@@ -12,10 +11,13 @@
 ## 插件地址 
 - https://github.com/chunsiyang/AdultScraperX.bundle
 
+## 如果你是linux小白，只会用群晖，可以使用如下精简版安装，将极大程度减少安装复杂度，强烈建议小白使用
+- https://github.com/chunsiyang/AdultScraperX-server/tree/master/docker/thin
+
 ## 推荐使用docker部署本项目详情请参考  
 - https://github.com/chunsiyang/AdultScraperX-server-docker  
 
-## 独立部署项目
+## 独立部署项目（不推荐，许自行提供数据库）
 1. 配置数据库  
 ```
 MONGODB_HOST = 'mongohost'
