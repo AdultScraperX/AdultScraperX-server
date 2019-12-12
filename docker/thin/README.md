@@ -1,3 +1,5 @@
+## TG群：https://t.me/AdultScraperX
+
 ## Docker for Synology 
 ### 简述：
 
