@@ -125,7 +125,9 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
         return checkSpider()
 
     userIp = request.remote_addr
-    if config.USER_CHECK is True and not userTools.checkUser(token, userIp, FQDN, port):
+    if config.THIN_MODE is False and \
+            config.USER_CHECK is True and \
+            not userTools.checkUser(token, userIp, FQDN, port):
         logging.info(u'======请求结束======')
         return 'T-Error!'
 
