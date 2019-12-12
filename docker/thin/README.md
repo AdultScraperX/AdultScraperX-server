@@ -27,3 +27,6 @@
 9. 点击应用
 10. 点击下一步
 11. 点击应用
+
+### 其他方式构建项目
+[https://github.com/chunsiyang/AdultScraperX-server](https://github.com/chunsiyang/AdultScraperX-server)
