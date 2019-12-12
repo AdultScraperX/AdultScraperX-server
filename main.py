@@ -195,7 +195,7 @@ def search(webList, q, autoFlag, cacheFlag=False):
     }
     for webSiteClass in webList:
         webSite = webSiteClass()
-        if cacheFlag:
+        if cacheFlag and config.THIN_MODE is False:
             items = webSite.searchWithCache(q, webSite.getName())
         else:
             items = webSite.search(q)
@@ -215,24 +215,27 @@ def checkState(token, FQDN, port):
     resultDate.append(setCheckState('1', '服务端版本' + str(config.SERVER_VERSION)))
     # 数据库检测
     resultDate.append(setCheckState('2', '数据库检测'))
-    try:
-        mongoTools.getConnection()
-        resultDate.append(setCheckState('2.1', '数据库链接创建成功'))
+    if config.THIN_MODE is True:
+        resultDate.append(setCheckState('2.1', '精简模式跳过数据库检测'))
+    else:
         try:
-            mongoTools.getDatabase()
-            resultDate.append(setCheckState('2.2', '数据库登陆成功'))
+            mongoTools.getConnection()
+            resultDate.append(setCheckState('2.1', '数据库链接创建成功'))
             try:
-                mongoTools.getCollection('meta_cache')
-                resultDate.append(setCheckState('2.3', '数据库用户权限设置正确'))
+                mongoTools.getDatabase()
+                resultDate.append(setCheckState('2.2', '数据库登陆成功'))
+                try:
+                    mongoTools.getCollection('meta_cache')
+                    resultDate.append(setCheckState('2.3', '数据库用户权限设置正确'))
+                except Exception:
+                    resultDate.append(setCheckState('2.1', '数据库用户权限设置不正确，请检查用户权限'))
             except Exception:
-                resultDate.append(setCheckState('2.1', '数据库用户权限设置不正确，请检查用户权限'))
+                resultDate.append(setCheckState('2.2', '数据库登陆失败，请检测用户名密码'))
         except Exception:
-            resultDate.append(setCheckState('2.2', '数据库登陆失败，请检测用户名密码'))
-    except Exception:
-        resultDate.append(setCheckState('2.3', '数据库链接创建失败，请检查服务器是否启动及地址是否正确'))
+            resultDate.append(setCheckState('2.3', '数据库链接创建失败，请检查服务器是否启动及地址是否正确'))
 
     # 用户检测
-    if config.USER_CHECK is True:
+    if config.THIN_MODE is True or config.USER_CHECK is True:
         resultDate.append(setCheckState('3', '用户检测'))
         if userTools.checkUser(token, request.remote_addr, FQDN, port):
             resultDate.append(setCheckState(

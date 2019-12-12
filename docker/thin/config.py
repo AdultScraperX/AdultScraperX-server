@@ -12,7 +12,7 @@ SERVER_VERSION = 1.0
 
 
 # 精简模式(开启后关闭数据库相关功能)
-THIN_MODE = False
+THIN_MODE = True
 
 # 是否开启用户认证
 USER_CHECK = False
