@@ -21,7 +21,7 @@ USER_CHECK = False
 CacheTag = '--noCache'
 
 # 手动匹配时不使用正则过滤关键字
-NotUseRe = '--notre'
+NotUseRe = '--nore'
 
 
 #管理员TOKEN
