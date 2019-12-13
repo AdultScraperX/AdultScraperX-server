@@ -154,15 +154,19 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
             # 循环模板列表
             codeList = []
             if q.find(config.NotUseRe) > -1:
-                q = q.replace(config.NotUseRe, '')
+                #q = q.replace(config.NotUseRe, '')
                 #设置绕过正则变量
                 nore = True
-                re_list = re.finditer(r'.+', q, re.IGNORECASE)
+                re_list = re.finditer(r'.+', q.replace(config.NotUseRe, ''), re.IGNORECASE)
             else:
-                re_list = re.finditer(template['pattern'], q, re.IGNORECASE)
+                re_list = re.finditer(template['pattern'], q.replace(config.NotUseRe, ''), re.IGNORECASE)
 
             for item in re_list:
                 codeList.append(item.group())
+                        
+            while '' in re_list:
+                re_list.remove('')
+
             if len(codeList) == 0:
                 continue
             # 对正则匹配结果进行搜索
