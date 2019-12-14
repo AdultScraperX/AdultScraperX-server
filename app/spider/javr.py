@@ -86,7 +86,7 @@ class Javr(UnsensoredSpider):
             'Watch XXX Japanese Porn - ', '').replace(studio, '')
         media.update({'m_title': title})
 
-        xpath_poster = "//img[@id='my-cover']/@src"
+        xpath_poster = "//img[@id='myvidcover']/@src"
         post_url_list = html.xpath(xpath_poster)
         for post_url in post_url_list:
             if len(re.findall('data:image', post_url)) < 1:
