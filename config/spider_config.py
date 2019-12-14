@@ -115,7 +115,7 @@ SOURCE_LIST = {
         # 10musume
         {
             "name": '10musume',
-            "pattern": r"\d{6}.\d{3}",
+            "pattern": r"\d{6}.\d{2}",
             'formatter': TenMusumeFormatter,
             'webList': [TenMusume, Javr]
         },
