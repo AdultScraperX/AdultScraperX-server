@@ -1,9 +1,9 @@
+# 此项目需要国际网络环境请自行解决！
 # AdultScraperX-server 服务端
 
 这是一个可以匹配成人影片信息的插件服务端（不提供任何影片下载与观看连接），仅提供简介，演员，标题，类型，系列，导演，工作室的信息匹配。
 
 ### TG群：https://t.me/AdultScraperX
-
 
 # 部署及配置部分
 ## 服务端配置说明
@@ -12,10 +12,13 @@
 ## 插件地址 
 - https://github.com/chunsiyang/AdultScraperX.bundle
 
+## 如果你是linux小白，只会用群晖，可以使用如下精简版安装，将极大程度减少安装复杂度，强烈建议小白使用
+- https://github.com/chunsiyang/AdultScraperX-server/tree/master/docker/thin
+
 ## 推荐使用docker部署本项目详情请参考  
 - https://github.com/chunsiyang/AdultScraperX-server-docker  
 
-## 独立部署项目
+## 独立部署项目（不推荐，需要自行提供MongoDB4数据库）
 1. 配置数据库  
 ```
 MONGODB_HOST = 'mongohost'
@@ -72,7 +75,7 @@ mv geckodriver-v0.26.0/geckodriver /usr/bin
 ### 运行
 `python3 ./main.py`
 
-### 对于自行建立数据库的用户请使用如下建库脚本
+### 对于自行建立MongoDB4数据库的用户请使用如下建库脚本
 - 请自行安装MongoDB4,并创建数据库用户及密码
 - 下列只给出如何创建数据库
 ```

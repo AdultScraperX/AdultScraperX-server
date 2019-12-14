@@ -148,25 +148,31 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
         cacheFlag = False
         q = q.replace(config.CacheTag, '')
     if dirTagLine != "" or not spider_config.SOURCE_LIST[dirTagLine]:
+        #初始化绕过正则判断变量
+        nore = False
         for template in spider_config.SOURCE_LIST[dirTagLine]:
             # 循环模板列表
             codeList = []
-            notre = False
             if q.find(config.NotUseRe) > -1:
-                q = q.replace(config.NotUseRe, '')
-                notre = True
-                re_list = re.finditer(r'.+', q, re.IGNORECASE)
+                #q = q.replace(config.NotUseRe, '')
+                #设置绕过正则变量
+                nore = True
+                re_list = re.finditer(r'.+', q.replace(config.NotUseRe, ''), re.IGNORECASE)
             else:
-                re_list = re.finditer(template['pattern'], q, re.IGNORECASE)
+                re_list = re.finditer(template['pattern'], q.replace(config.NotUseRe, ''), re.IGNORECASE)
 
             for item in re_list:
                 codeList.append(item.group())
+                        
+            while '' in re_list:
+                re_list.remove('')
+
             if len(codeList) == 0:
                 continue
             # 对正则匹配结果进行搜索
             for code in codeList:
-
-                if notre:
+                #判断绕过正则
+                if nore:
                     items = search(template['webList'],
                                    code, autoFlag, cacheFlag)
                 else:
