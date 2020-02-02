@@ -33,14 +33,14 @@ SOURCE_LIST = {
         # 常规有码影片搜刮
         {
             "name": '常规有码影片搜刮',
-            "pattern": r"\w+[a-z]{2,5}\D{1}\d{1,5}|[a-z]{2,5}\d{1,5}",
+            "pattern": r"\w+[a-z]{1,5}\D{1}\d{1,5}|[a-z]{1,5}\d{1,5}",
             'formatter': CensoredFormatter,
             'webList': [Arzon, Javbus, Onejav]
         },
         #  mgstage
         {
             "name": 'mgstage',
-            "pattern": r"[0-9]{3}[a-z]{3,4}\D{1}\d{3,4}|[0-9]{3}[a-z]{3,4}\d{3,4}|SIRO[0-9]{3,4}|SIRO\D{1}[0-9]{4}[0-9]{3}[a-z]{3,4}\D{1}\d{3,4}|[0-9]{3}[a-z]{3,4}\d{3,4}|SIRO[0-9]{3,4}|SIRO\D{1}[0-9]{3,4}",
+            "pattern": r"[0-9]{3}[a-z]{3,5}\D{1}\d{3,4}|[0-9]{3}[a-z]{3,4}\d{3,4}|SIRO[0-9]{3,4}|SIRO\D{1}[0-9]{4}[0-9]{3}[a-z]{3,4}\D{1}\d{3,4}|[0-9]{3}[a-z]{3,4}\d{3,4}|SIRO[0-9]{3,4}|SIRO\D{1}[0-9]{3,4}",
             'formatter': MGStageFormatter,
             'webList': [MGStage]
         }
