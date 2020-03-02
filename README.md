@@ -60,6 +60,7 @@ pip3 install requests
 pip3 install pymongo 
 pip3 install selenium
 pip3 install flask 
+pip3 install googletrans
 ```
 
 ### 安装firfox浏览器及驱动
