@@ -20,7 +20,8 @@ RUN pip install --upgrade pip \
     && pip3 install pillow \
     && pip install requests \
     && pip install pymongo \
-    && pip install flask
+    && pip install flask \
+    && pip install googletrans
 
 RUN useradd -ms /bin/bash adultScraperX
 WORKDIR  /home/adultScraperX
