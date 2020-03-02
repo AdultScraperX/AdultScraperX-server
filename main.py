@@ -185,27 +185,31 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port, transum,trantit
                                    cacheFlag)
 
                 if items.get("issuccess") == "true":
-                    logging.info("翻译简介")
-                    if transum == 'y':
-                        translator = Translator()
-                        if dirTagLine == 'censored' or dirTagLine == 'uncensored' or dirTagLine == 'animation':
-                            items.get('json_data')[0].get('Arzon').update({'m_summary': translator.translate(
-                                items.get('json_data')[0].get('Arzon').get('m_summary'), src='ja', dest='zh-cn').text})
+                    translator = Translator()
+                    for index,data_tmp in enumerate(range(len(items.get('json_data')))): 
+                        for key in items.get('json_data')[index]:
+                            if not items.get('json_data')[index].get(key).get('m_summary') == '':
+                                if transum == 'y':
+                                    logging.info("翻译简介")
+                                    if dirTagLine == 'censored' or dirTagLine == 'uncensored' or dirTagLine == 'animation':
+                                            items.get('json_data')[index].get(key).update({'m_summary': translator.translate(
+                                                items.get('json_data')[index].get(key).get('m_summary'), src='ja', dest='zh-cn').text})
 
-                        if dirTagLine == 'europe':
-                            items.get('json_data')[0].get('Arzon').update({'m_summary': translator.translate(
-                                items.get('json_data')[0].get('Arzon').get('m_summary'), src='en', dest='zh-cn').text})
+                                    if dirTagLine == 'europe':
+                                        items.get('json_data')[index].get(key).update({'m_summary': translator.translate(
+                                            items.get('json_data')[index].get(key).get('m_summary'), src='en', dest='zh-cn').text})
+                                                     
+                            if not items.get('json_data')[index].get(key).get('m_title') == '':                   
+                                if trantitle == 'y':                                                
+                                    logging.info("翻译标题")   
+                                    if dirTagLine == 'censored' or dirTagLine == 'uncensored' or dirTagLine == 'animation':
+                                        items.get('json_data')[index].get(key).update({'m_title': translator.translate(
+                                            items.get('json_data')[index].get(key).get('m_title'), src='ja', dest='zh-cn').text})
 
-                    logging.info("翻译标题")                    
-                    if trantitle == 'y':
-                        if dirTagLine == 'censored' or dirTagLine == 'uncensored' or dirTagLine == 'animation':
-                            items.get('json_data')[0].get('Arzon').update({'m_title': translator.translate(
-                                items.get('json_data')[0].get('Arzon').get('m_title'), src='ja', dest='zh-cn').text})
-
-                        if dirTagLine == 'europe':
-                            items.get('json_data')[0].get('Arzon').update({'m_title': translator.translate(
-                                items.get('json_data')[0].get('Arzon').get('m_title'), src='en', dest='zh-cn').text})
-                        
+                                    if dirTagLine == 'europe':
+                                        items.get('json_data')[index].get(key).update({'m_title': translator.translate(
+                                            items.get('json_data')[index].get(key).get('m_title'), src='en', dest='zh-cn').text})
+                            
                     translator = None
 
                     logging.info("匹配数据结果：success")
