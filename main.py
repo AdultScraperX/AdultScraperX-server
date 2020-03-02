@@ -14,6 +14,7 @@ import config.config as config
 from flask import Flask, request
 from flask import render_template
 from flask import send_file
+from googletrans import Translator
 
 
 if sys.version.find('2', 0, 1) == 0:
@@ -69,8 +70,8 @@ def addUser(adminToken, username):
     return json.dumps({'issuccess': 'false', 'token': '', 'ex': '未授权访问'})
 
 
-@app.route('/<requestType>/<dirTagLine>/<q>/<token>/<FQDN>/<port>')
-def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
+@app.route('/<requestType>/<dirTagLine>/<q>/<token>/<FQDN>/<port>/<transum>/<trantitle>')
+def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port, transum,trantitle):
     """
     根据搜刮网站列表进行数据搜刮
     :param cacheFlag: 使用缓存标识
@@ -148,22 +149,24 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
         cacheFlag = False
         q = q.replace(config.CacheTag, '')
     if dirTagLine != "" or not spider_config.SOURCE_LIST[dirTagLine]:
-        #初始化绕过正则判断变量
+        # 初始化绕过正则判断变量
         nore = False
         for template in spider_config.SOURCE_LIST[dirTagLine]:
             # 循环模板列表
             codeList = []
             if q.find(config.NotUseRe) > -1:
                 #q = q.replace(config.NotUseRe, '')
-                #设置绕过正则变量
+                # 设置绕过正则变量
                 nore = True
-                re_list = re.finditer(r'.+', q.replace(config.NotUseRe, ''), re.IGNORECASE)
+                re_list = re.finditer(
+                    r'.+', q.replace(config.NotUseRe, ''), re.IGNORECASE)
             else:
-                re_list = re.finditer(template['pattern'], q.replace(config.NotUseRe, ''), re.IGNORECASE)
+                re_list = re.finditer(template['pattern'], q.replace(
+                    config.NotUseRe, ''), re.IGNORECASE)
 
             for item in re_list:
                 codeList.append(item.group())
-                        
+
             while '' in re_list:
                 re_list.remove('')
 
@@ -171,7 +174,7 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
                 continue
             # 对正则匹配结果进行搜索
             for code in codeList:
-                #判断绕过正则
+                # 判断绕过正则
                 if nore:
                     items = search(template['webList'],
                                    code, autoFlag, cacheFlag)
@@ -182,6 +185,29 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
                                    cacheFlag)
 
                 if items.get("issuccess") == "true":
+                    logging.info("翻译简介")
+                    if transum == 'y':
+                        translator = Translator()
+                        if dirTagLine == 'censored' or dirTagLine == 'uncensored' or dirTagLine == 'animation':
+                            items.get('json_data')[0].get('Arzon').update({'m_summary': translator.translate(
+                                items.get('json_data')[0].get('Arzon').get('m_summary'), src='ja', dest='zh-cn').text})
+
+                        if dirTagLine == 'europe':
+                            items.get('json_data')[0].get('Arzon').update({'m_summary': translator.translate(
+                                items.get('json_data')[0].get('Arzon').get('m_summary'), src='en', dest='zh-cn').text})
+
+                    logging.info("翻译标题")                    
+                    if trantitle == 'y':
+                        if dirTagLine == 'censored' or dirTagLine == 'uncensored' or dirTagLine == 'animation':
+                            items.get('json_data')[0].get('Arzon').update({'m_title': translator.translate(
+                                items.get('json_data')[0].get('Arzon').get('m_title'), src='ja', dest='zh-cn').text})
+
+                        if dirTagLine == 'europe':
+                            items.get('json_data')[0].get('Arzon').update({'m_title': translator.translate(
+                                items.get('json_data')[0].get('Arzon').get('m_title'), src='en', dest='zh-cn').text})
+                        
+                    translator = None
+
                     logging.info("匹配数据结果：success")
                     logging.info(u'======结束请求======')
                     logging.info(u'======返回json======')
@@ -236,11 +262,13 @@ def checkState(token, FQDN, port):
                     mongoTools.getCollection('meta_cache')
                     resultDate.append(setCheckState('2.3', '数据库用户权限设置正确'))
                 except Exception:
-                    resultDate.append(setCheckState('2.1', '数据库用户权限设置不正确，请检查用户权限'))
+                    resultDate.append(setCheckState(
+                        '2.1', '数据库用户权限设置不正确，请检查用户权限'))
             except Exception:
                 resultDate.append(setCheckState('2.2', '数据库登陆失败，请检测用户名密码'))
         except Exception:
-            resultDate.append(setCheckState('2.3', '数据库链接创建失败，请检查服务器是否启动及地址是否正确'))
+            resultDate.append(setCheckState(
+                '2.3', '数据库链接创建失败，请检查服务器是否启动及地址是否正确'))
 
     # 用户检测
     if config.THIN_MODE is True or config.USER_CHECK is True:
