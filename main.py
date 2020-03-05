@@ -39,6 +39,21 @@ def warning():
         'warning.html'
     )
 
+@app.route('/t/<dirTagLine>/<tran>')
+def t(dirTagLine, tran):
+    
+    data = base64.b64decode(tran.replace(';<*','/')).decode("utf-8")
+    translator = Translator()
+    if not data == '':
+        logging.info("执行翻译")
+        if dirTagLine == 'censored' or dirTagLine == 'uncensored' or dirTagLine == 'animation':
+            data=translator.translate(data,  src='ja', dest='zh-cn').text
+
+        if dirTagLine == 'europe':
+            data=translator.translate(data,  src='en', dest='zh-cn').text
+
+    translator = None
+    return data
 
 @app.route("/img/<data>")
 def img(data):
@@ -70,8 +85,8 @@ def addUser(adminToken, username):
     return json.dumps({'issuccess': 'false', 'token': '', 'ex': '未授权访问'})
 
 
-@app.route('/<requestType>/<dirTagLine>/<q>/<token>/<FQDN>/<port>/<transum>/<trantitle>')
-def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port, transum,trantitle):
+@app.route('/<requestType>/<dirTagLine>/<q>/<token>/<FQDN>/<port>')
+def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
     """
     根据搜刮网站列表进行数据搜刮
     :param cacheFlag: 使用缓存标识
@@ -185,33 +200,6 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port, transum,trantit
                                    cacheFlag)
 
                 if items.get("issuccess") == "true":
-                    translator = Translator()
-                    for index,data_tmp in enumerate(range(len(items.get('json_data')))): 
-                        for key in items.get('json_data')[index]:
-                            if not items.get('json_data')[index].get(key).get('m_summary') == '':
-                                if transum == 'y':
-                                    logging.info("翻译简介")
-                                    if dirTagLine == 'censored' or dirTagLine == 'uncensored' or dirTagLine == 'animation':
-                                            items.get('json_data')[index].get(key).update({'m_summary': translator.translate(
-                                                items.get('json_data')[index].get(key).get('m_summary'), src='ja', dest='zh-cn').text})
-
-                                    if dirTagLine == 'europe':
-                                        items.get('json_data')[index].get(key).update({'m_summary': translator.translate(
-                                            items.get('json_data')[index].get(key).get('m_summary'), src='en', dest='zh-cn').text})
-                                                     
-                            if not items.get('json_data')[index].get(key).get('m_title') == '':                   
-                                if trantitle == 'y':                                                
-                                    logging.info("翻译标题")   
-                                    if dirTagLine == 'censored' or dirTagLine == 'uncensored' or dirTagLine == 'animation':
-                                        items.get('json_data')[index].get(key).update({'m_title': translator.translate(
-                                            items.get('json_data')[index].get(key).get('m_title'), src='ja', dest='zh-cn').text})
-
-                                    if dirTagLine == 'europe':
-                                        items.get('json_data')[index].get(key).update({'m_title': translator.translate(
-                                            items.get('json_data')[index].get(key).get('m_title'), src='en', dest='zh-cn').text})
-                            
-                    translator = None
-
                     logging.info("匹配数据结果：success")
                     logging.info(u'======结束请求======')
                     logging.info(u'======返回json======')
@@ -330,6 +318,8 @@ def setCheckState(number, title):
         }
 
     }
+
+
 
 
 if __name__ == "__main__":
