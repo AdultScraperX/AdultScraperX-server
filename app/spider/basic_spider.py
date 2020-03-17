@@ -10,6 +10,7 @@ import app.internel.cache_tools as cacheTools
 
 from app.internel.tools import Tools
 import config.config as config
+import requests
 
 
 class BasicSpider:
@@ -76,7 +77,10 @@ class BasicSpider:
        """
         cropped = None
         try:
-            response = self.client_session.get(url)
+            response = requests.get(url)
+            if response.status_code == '403':
+                response = self.client_session.get(url)
+            
         except Exception as ex:
             print('error : %s' % repr(ex))
             return cropped
@@ -99,7 +103,9 @@ class BasicSpider:
         """
         cropped = None
         try:
-            response = self.client_session.get(url)
+            response = requests.get(url)
+            if response.status_code == '403':
+                response = self.client_session.get(url)
         except Exception as ex:
             print('error : %s' % repr(ex))
             return cropped
@@ -119,7 +125,9 @@ class BasicSpider:
        """
         cropped = None
         try:
-            response = self.client_session.get(url)
+            response = requests.get(url)
+            if response.status_code == '403':
+                response = self.client_session.get(url)
         except Exception as ex:
             print('error : %s' % repr(ex))
             return cropped
