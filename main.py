@@ -35,8 +35,10 @@ app = Flask(__name__)
 @app.route("/index")
 @app.route("/warning")
 def warning():
+    beta ={'beta':'1.1.3'}
     return render_template(
-        'warning.html'
+        'warning.html',
+        **beta
     )
 
 @app.route('/t/<dirTagLine>/<tran>')
@@ -122,6 +124,7 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
                     'm_summary':'', // 概述
                     'm_title':'', //标题,此项为必填项
                     'm_year':'' //年份 yyyy-MM-dd
+                    
                     }
                 }
             ]
