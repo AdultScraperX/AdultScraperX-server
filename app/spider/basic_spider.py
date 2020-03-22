@@ -159,18 +159,27 @@ class BasicSpider:
             cropped = self.actorPicture(url, r, w, h)
         return cropped
 
-    def pictureProcessingCFT(self, data,r,w,h):
+    def pictureProcessingCFT(self, data,r,w,h):        
         mode = data['mode']
         url = data['url']
+        r = config.IMG_R
+        w = config.IMG_W
+        h = config.IMG_H
+        webkey = data['webkey']
+        cropped = None
+        # 开始剪切        
         if r == '0':
             r = config.IMG_R
         if w == '0':
             w = config.IMG_W
         if h == '0':
             h = config.IMG_H
-        cropped = None
-        # 开始剪切
-        cropped = self.posterPicture(url, r, w, h)
+        if mode == 'poster':
+            cropped = self.posterPicture(url, r, w, h)
+        if mode == 'art':
+            cropped = self.artPicture(url, r, w, h)
+        if mode == 'actor':
+            cropped = self.actorPicture(url, r, w, h)
         return cropped
 
     def webSiteConfirmByurl(self, url, headers):
