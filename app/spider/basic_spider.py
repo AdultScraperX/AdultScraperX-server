@@ -78,7 +78,7 @@ class BasicSpider:
         cropped = None
         try:
             response = requests.get(url)
-            if response.status_code == '403':
+            if response.status_code == 403:
                 response = self.client_session.get(url)
             
         except Exception as ex:
@@ -104,7 +104,7 @@ class BasicSpider:
         cropped = None
         try:
             response = requests.get(url)
-            if response.status_code == '403':
+            if response.status_code == 403:
                 response = self.client_session.get(url)
         except Exception as ex:
             print('error : %s' % repr(ex))
@@ -126,7 +126,7 @@ class BasicSpider:
         cropped = None
         try:
             response = requests.get(url)
-            if response.status_code == '403':
+            if response.status_code == 403:
                 response = self.client_session.get(url)
         except Exception as ex:
             print('error : %s' % repr(ex))
@@ -157,6 +157,20 @@ class BasicSpider:
             cropped = self.artPicture(url, r, w, h)
         if mode == 'actor':
             cropped = self.actorPicture(url, r, w, h)
+        return cropped
+
+    def pictureProcessingCFT(self, data,r,w,h):
+        mode = data['mode']
+        url = data['url']
+        if r == '0':
+            r = config.IMG_R
+        if w == '0':
+            w = config.IMG_W
+        if h == '0':
+            h = config.IMG_H
+        cropped = None
+        # 开始剪切
+        cropped = self.posterPicture(url, r, w, h)
         return cropped
 
     def webSiteConfirmByurl(self, url, headers):
