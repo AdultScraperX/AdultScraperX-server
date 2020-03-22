@@ -35,30 +35,35 @@ app = Flask(__name__)
 @app.route("/index")
 @app.route("/warning")
 def warning():
-    beta ={'beta':'1.1.3'}
+    beta = {'beta': '1.2.0'}
     return render_template(
         'warning.html',
         **beta
     )
 
+
 @app.route('/t/<dirTagLine>/<tran>')
 def t(dirTagLine, tran):
-    
-    data = base64.b64decode(tran.replace(';<*','/')).decode("utf-8")
+
+    data = base64.b64decode(tran.replace(';<*', '/')).decode("utf-8")
     translator = Translator()
     if not data == '':
-        logging.info("执行翻译")
-        if dirTagLine == 'censored' or dirTagLine == 'uncensored' or dirTagLine == 'animation':
-            data=translator.translate(data,  src='ja', dest='zh-cn').text
+        try:
+            logging.info("执行翻译")
+            if dirTagLine == 'censored' or dirTagLine == 'uncensored' or dirTagLine == 'animation':
+                data = translator.translate(data,  src='ja', dest='zh-cn').text
 
-        if dirTagLine == 'europe':
-            data=translator.translate(data,  src='en', dest='zh-cn').text
+            if dirTagLine == 'europe':
+                data = translator.translate(data,  src='en', dest='zh-cn').text
+        except Exception as ex:
+            Log('翻译出现异常 ：%s' % ex)
 
     translator = None
     return data
 
-@app.route("/img/<data>")
-def img(data):
+
+@app.route("/img/<data>/<r>/<w>/<h>")
+def img(data, r, w, h):
     data = json.loads(base64.b64decode(data))
     image = None
     for sourceList in spider_config.SOURCE_LIST:
@@ -66,7 +71,10 @@ def img(data):
             for spiderClass in sourceItem["webList"]:
                 spider = spiderClass()
                 if spider.getName().lower() == data['webkey'].lower():
-                    image = spider.pictureProcessing(data)
+                    if r == 0 and w == 0 and h == 0:
+                        image = spider.pictureProcessing(data)
+                    else:                
+                        image = spider.pictureProcessingCFT(data,r,w,h)
     if image is not None:
         try:
             img_io = StringIO()
@@ -124,7 +132,7 @@ def getMediaInfos(requestType, dirTagLine, q, token, FQDN, port):
                     'm_summary':'', // 概述
                     'm_title':'', //标题,此项为必填项
                     'm_year':'' //年份 yyyy-MM-dd
-                    
+
                     }
                 }
             ]
@@ -321,8 +329,6 @@ def setCheckState(number, title):
         }
 
     }
-
-
 
 
 if __name__ == "__main__":
