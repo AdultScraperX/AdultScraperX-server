@@ -35,7 +35,7 @@ app = Flask(__name__)
 @app.route("/index")
 @app.route("/warning")
 def warning():
-    beta = {'beta': '1.2.0'}
+    beta = {'beta': '1.2.1'}
     return render_template(
         'warning.html',
         **beta
