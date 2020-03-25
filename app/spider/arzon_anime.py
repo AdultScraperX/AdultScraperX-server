@@ -139,6 +139,10 @@ class ArzonAnime(BasicSpider):
                 originallyAvailableAt[0])
             media.update(
                 {'m_originallyAvailableAt': self.tools.formatdatetime(originallyAvailableAt)})
+        else:
+            media.update(
+                {'m_originallyAvailableAt': year})
+            
 
         xpath_category = "//div[@id='adultgenre2']//table//tr/td[2]//ul//li/a"
         categorys = html.xpath(xpath_category)

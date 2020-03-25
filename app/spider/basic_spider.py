@@ -162,9 +162,6 @@ class BasicSpider:
     def pictureProcessingCFT(self, data,r,w,h):        
         mode = data['mode']
         url = data['url']
-        r = config.IMG_R
-        w = config.IMG_W
-        h = config.IMG_H
         webkey = data['webkey']
         cropped = None
         # 开始剪切        
