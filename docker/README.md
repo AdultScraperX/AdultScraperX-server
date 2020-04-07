@@ -40,7 +40,7 @@ sudo apt install git
 ```
 clone 并启动项目
 ```
-git clone https://github.com/chunsiyang/AdultScraperX-server-docker.git  
+git clone https://github.com/AdultScraperX/AdultScraperX-server-docker.git  
 cd AdultScraperX-server-docker  
 docker-compose up -d
 ```
