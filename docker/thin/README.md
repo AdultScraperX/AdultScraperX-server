@@ -19,8 +19,8 @@
 ### 从Docker中部署AdultScraperX-Server
 1. 在Docker套件中选择 注册表
 2. 在注册表搜索栏中输入 AdultScraperX 并查找
-3. 下载 chunsiyang/adultscraperx-server-thin 镜像
-4. 在映像中 创建 chunsiyang/adultscraperx-server-thin 的容器
+3. 下载 adultscraperx/adultscraperx-server-thin 镜像
+4. 在映像中 创建 adultscraperx/adultscraperx-server-thin 的容器
 5. 按需 勾选 【使用高权限执行容器 与 启用资源限制】
 6. 点击高级设置按钮
 7. 点击端口设置选项菜单
