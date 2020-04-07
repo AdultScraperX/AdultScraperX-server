@@ -32,4 +32,4 @@
 11. 点击应用
 
 ### 其他方式构建项目
-[https://github.com/chunsiyang/AdultScraperX-server](https://github.com/chunsiyang/AdultScraperX-server)
+[https://github.com/AdultScraperX/AdultScraperX-server](https://github.com/AdultScraperX/AdultScraperX-server)
