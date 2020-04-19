@@ -5,7 +5,6 @@ from lxml import etree  # Xpath包
 from PIL import Image
 
 from app.internel.config import ConfigManager
-import requests
 import app.internel.cache_tools as cacheTools
 
 from app.internel.tools import Tools

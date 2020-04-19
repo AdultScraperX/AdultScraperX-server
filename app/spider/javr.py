@@ -8,7 +8,7 @@ class Javr(UnsensoredSpider):
 
     def __init__(self):
         super().__init__()
-        self.checkUrl = 'https://javr.club/'
+        self.checkUrl = 'https://javrave.club/'
 
 
     def search(self, q):
@@ -27,7 +27,7 @@ class Javr(UnsensoredSpider):
         '获取查询结果页html对象'
         qList = q.split(',')
         q = q.replace(',', ' ')
-        baseUrl = 'https://javr.club/page/'
+        baseUrl = 'https://javrave.club/page/'
         query = '/?s=%s' % q
         xpathResult = "//div[@class='content']/h3[@class='cactus-post-title entry-title h4']/a/@href"
         for page in range(1, 3):
@@ -85,6 +85,7 @@ class Javr(UnsensoredSpider):
         title = title[0].replace(
             'Watch XXX Japanese Porn - ', '').replace(studio, '')
         media.update({'m_title': title})
+        media.update({'m_summary': title})
 
         xpath_poster = "//img[@id='myvidcover']/@src"
         post_url_list = html.xpath(xpath_poster)
