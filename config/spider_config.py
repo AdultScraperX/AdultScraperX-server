@@ -87,7 +87,7 @@ SOURCE_LIST = {
         #  javr for FC2PPV
         {
             "name": 'javr for FC2PPV',
-            "pattern": r"(fc|Fc|FC).*\d{6}",
+            "pattern": r"(fc|Fc|FC).*\d{6,7}",
             'formatter': Fc2ppvFormater,
             'webList': [Javr]
         },
