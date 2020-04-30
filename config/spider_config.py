@@ -1,3 +1,4 @@
+from app.formatter.Fc2ClubFormatter import Fc2ClubFormatter
 from app.formatter.CaribbeanFormatter import CaribbeanFormatter
 from app.formatter.CaribbeancomprFormatter import CaribbeancomprFormatter
 from app.formatter.HeydougaFormatter import HeydougaFormatter
@@ -12,6 +13,7 @@ from app.formatter.fc2ppvFormatter import Fc2ppvFormater
 from app.formatter.mgstageFormatter import MGStageFormatter
 from app.formatter.onePondoFormatter import OnePondoFormatter
 from app.formatter.tenMusumeFormatter import TenMusumeFormatter
+from app.spider.Fc2Club import Fc2Club
 from app.spider.HeyzoOfficial import HeyzoOfficial
 from app.spider.arzon import Arzon
 from app.spider.arzon_anime import ArzonAnime
@@ -83,6 +85,13 @@ SOURCE_LIST = {
             "pattern": r"(tokyo|TOKYO|Tokyo).*[A-Za-z]+[\ -]?\d+",
             'formatter': TokyoHotFormatter,
             'webList': [Javr]
+        },
+        #  fc2club for FC2PPV
+        {
+            "name": 'fc2club for FC2PPV',
+            "pattern": r"(fc|Fc|FC).*\d{6,7}",
+            'formatter': Fc2ClubFormatter,
+            'webList': [Fc2Club]
         },
         #  javr for FC2PPV
         {
